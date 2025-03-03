@@ -1,6 +1,12 @@
-CREATE DATABASE BW4_ECOMMERCE;
+|CREATE DATABASE BW4_ECOMMERCE;
 
 USE BW4_ECOMMERCE;
+
+CREATE TABLE CATEGORIES(
+Id INT IDENTITY PRIMARY KEY NOT NULL,
+Name NVARCHAR(20) NOT NULL,
+Img NVARCHAR(MAX) NOT NULL
+);
 
 CREATE TABLE PRODUCTS(
 Id UNIQUEIDENTIFIER PRIMARY KEY NOT NULL,
@@ -22,13 +28,7 @@ IdProduct UNIQUEIDENTIFIER NOT NULL,
 CONSTRAINT FK_IdProduct FOREIGN KEY (IdProduct) REFERENCES PRODUCTS(Id)
 );
 
-CREATE TABLE CATEGORIES(
-Id INT IDENTITY PRIMARY KEY NOT NULL,
-Name NVARCHAR(20) NOT NULL,
-Img NVARCHAR(MAX) NOT NULL
-);
-
-INSERT INTO CATEGORIES(Name, Img) VALUE(
+INSERT INTO CATEGORIES(Name, Img) VALUES(
 'Burgers', 'https://glovo.dhmedia.io/image/stores-glovo/stores/fb0c464a62de63c294ef415976d4e3f3d08b92c3b06e90287bbab4a9f0484890?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7Im1vZGUiOiJmaWxsIiwiYmciOiJ0cmFuc3BhcmVudCIsIndpZHRoIjo1ODgsImhlaWdodCI6MzIwfX1d'
 ),(
 'Pizza', 'https://glovo.dhmedia.io/image/stores-glovo/stores/9bc6474e6e40b0837228e3d37cc2665ace58954726f49df7d19fa4f489afe9c6?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7Im1vZGUiOiJmaWxsIiwiYmciOiJ0cmFuc3BhcmVudCIsIndpZHRoIjo1ODgsImhlaWdodCI6MzIwfX1d'
@@ -82,3 +82,15 @@ NEWID(), 'Amatriciana', 16, 'Un piatto iconico della cucina laziale, con guancia
 NEWID(), 'Carbonara', 18, 'Un classico della cucina romana: guanciale croccante, uova fresche, pecorino romano e pepe nero, per un piatto cremoso e ricco di sapore. Un connubio perfetto di semplicità e gusto.',
 'Un connubio perfetto di semplicità e gusto.', 'https://images-ext-1.discordapp.net/external/C7ScDJlOxs-BX3qAOBhOhizBnXpGzbolh43vxdHlAiQ/%3Ft%3DW3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjo2MDB9fV0%3D/https/glovo.dhmedia.io/image/menus-glovo/products/12be7475f4d232e9a62fe7fb3f85512e22604cf785737ac12a1b5e8e06288e24?format=webp&width=432&height=432', 5
 )
+
+INSERT INTO CATEGORIES(Name, Img) VALUES (
+'Dolci', 'https://glovo.dhmedia.io/image/stores-glovo/stores/cd9ce163b9d7956d038a56c33b4cf0535ce77d0921f8576bb4af47c3b9466be0?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7Im1vZGUiOiJmaWxsIiwiYmciOiJ0cmFuc3BhcmVudCIsIndpZHRoIjo1ODgsImhlaWdodCI6MzIwfX1d'
+)
+
+INSERT INTO PRODUCTS(Id, Name, Price, Description, DescriptionShort, Img, IdCategory) VALUES
+(NEWID(), 'Tiramisù', 11, 'Cremoso e avvolgente, è un classico amato in tutto il mondo.', 'Coppa di Tiramisù monoporzione in vetro.', 'https://glovo.dhmedia.io/image/menus-glovo/products/6d82e0340fda5bc6d953655ad73a07250b2703ad62a7a8da9661beb08c76333f?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjo2MDB9fV0=',6),
+(NEWID(), 'Tortino al cioccolato', 9, 'Tortino al Cioccolato con Barattolino di Crema Pasticcera.', 'Servito caldo, sprigiona un''esplosione di cioccolato fuso ad ogni morso, perfetto per gli amanti del cacao.', 'https://glovo.dhmedia.io/image/menus-glovo/products/bf76c264592d249df107368c4f7e587f688e15cd0705bbde928f07aa3afc791a?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjo2MDB9fV0=',6);
+
+SELECT P.Id, P.Name, P.Price, P.Description, P.DescriptionShort, P.Img, C.Id FROM PRODUCTS P INNER JOIN CATEGORIES C ON P.IdCategory = C.Id WHERE P.IdCategory = 1;
+
+UPDATE PRODUCTS SET Description = 'Servito caldo, sprigiona un''esplosione di cioccolato fuso ad ogni morso, perfetto per gli amanti del cacao.'  WHERE Name = 'Tortino al cioccolato'
