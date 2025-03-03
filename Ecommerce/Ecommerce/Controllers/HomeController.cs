@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.Data.SqlClient;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,9 +22,38 @@ namespace Ecommerce.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var categoryList = new CategoryViewModel()
+            {
+                Categories = new List<Category>()
+            };
+
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query = "SELECT * FROM CATEGORIES";
+
+                await using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            categoryList.Categories.Add(
+                                new Category()
+                                {
+                                    Id = reader.GetInt32(0),
+                                    Name = reader.GetString(1),
+                                    Img = reader.GetString(2),
+                                }
+                            );
+                        }
+                    }
+                }
+            }
+
+            return View(categoryList);
         }
 
         public IActionResult Privacy()

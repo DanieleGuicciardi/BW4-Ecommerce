@@ -1,8 +1,30 @@
-﻿@{
+﻿@model CategoryViewModel 
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container-fluid text-center my-5">
+    <h1 class="display-4 mb-4">Welcome</h1>
+    <div class="row">
+		@if (Model.Categories != null && Model.Categories.Count > 0)
+		{
+			@foreach (var category in Model.Categories)
+			{
+				<div class=" col-4 mb-3">
+					<div class=" w-100">
+						<a asp-controller="Home" asp-action="Print">
+							<img src="@category.Img" alt="categoria" class="circular-img categoriaImg" />
+						</a>
+					</div>
+					<a asp-controller="Home" asp-action="Print" class=" text-decoration-none text-black fw-bold">
+						<h5>@category.Name</h5>
+					</a>
+
+				</div>
+			}
+		}
+
+    </div>
+
 </div>

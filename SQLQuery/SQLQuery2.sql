@@ -82,3 +82,7 @@ NEWID(), 'Amatriciana', 16, 'Un piatto iconico della cucina laziale, con guancia
 NEWID(), 'Carbonara', 18, 'Un classico della cucina romana: guanciale croccante, uova fresche, pecorino romano e pepe nero, per un piatto cremoso e ricco di sapore. Un connubio perfetto di semplicità e gusto.',
 'Un connubio perfetto di semplicità e gusto.', 'https://images-ext-1.discordapp.net/external/C7ScDJlOxs-BX3qAOBhOhizBnXpGzbolh43vxdHlAiQ/%3Ft%3DW3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjo2MDB9fV0%3D/https/glovo.dhmedia.io/image/menus-glovo/products/12be7475f4d232e9a62fe7fb3f85512e22604cf785737ac12a1b5e8e06288e24?format=webp&width=432&height=432', 5
 )
+
+INSERT INTO CATEGORIES(Name, Img) VALUES (
+'Dolci', 'https://glovo.dhmedia.io/image/stores-glovo/stores/cd9ce163b9d7956d038a56c33b4cf0535ce77d0921f8576bb4af47c3b9466be0?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7Im1vZGUiOiJmaWxsIiwiYmciOiJ0cmFuc3BhcmVudCIsIndpZHRoIjo1ODgsImhlaWdodCI6MzIwfX1d'
+)
