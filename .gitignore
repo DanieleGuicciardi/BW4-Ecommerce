@@ -1,0 +1,60 @@
+# Visual Studio specific
+.vs/
+*.vscode/
+
+# Build results
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.appx
+*.appxbundle
+*.msix
+*.msixbundle
+*.nupkg
+*.snupkg
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet dependencies
+*.nupkg
+packages/
+
+# Logs and databases
+*.log
+*.ldf
+*.mdf
+*.dbmdl
+*.jfm
+
+# Entity Framework
+App_Data/
+Migrations/
+
+# Publish outputs
+publish/
+
+# Node and front-end
+node_modules/
+*.css.map
+*.js.map
+
+# Configuration files
+secrets.json
+appsettings*.json
+
+# Rider and JetBrains
+.idea/
+
+# macOS/Linux specific
+.DS_Store
+*.swp
+
+# SQL Server Management Studio (SSMS)
+*.bak
+*.sql
