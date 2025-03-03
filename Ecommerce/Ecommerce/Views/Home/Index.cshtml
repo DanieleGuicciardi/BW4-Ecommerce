@@ -4,15 +4,16 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="container-fluid text-center my-5">
-    <h1 class="display-4 mb-4">Welcome</h1>
-    <div class="row">
+<div class="container-fluid text-center mt-3 mb-5">
+    <img src="~/img/mordi (200 x 50 px) (1).png" alt="logo" class="pt-5"/>
+    <div class="row mt-0">
 		@if (Model.Categories != null && Model.Categories.Count > 0)
 		{
 			@foreach (var category in Model.Categories)
 			{
-				<div class=" col-4 mb-3">
-					<div class=" w-100">
+				<div class="col-4 mb-3">
+					<div class="categoria d-flex flex-column align-items-center">
+					<div class="categoriaImg">
 						<a asp-controller="Home" asp-action="PrintProducts" asp-route-id="@category.Id">
 							<img src="@category.Img" alt="categoria" class="circular-img categoriaImg" />
 						</a>
@@ -20,7 +21,7 @@
 					<a asp-controller="Home" asp-action="PrintProducts" asp-route-id="@category.Id" class=" text-decoration-none text-black fw-bold">
 						<h5>@category.Name</h5>
 					</a>
-
+					</div>
 				</div>
 			}
 		}

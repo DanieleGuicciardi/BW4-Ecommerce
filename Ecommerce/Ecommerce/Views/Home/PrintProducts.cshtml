@@ -5,13 +5,13 @@
 }
 
 <div class="container-fluid my-5">
-	<h1 class="text-center">Prodotti</h1>
+	<h1 class="text-center mb-4">Prodotti</h1>
 
     <div class="row">
         @foreach (var prodotto in Model.Products)
         {
             <div class="col-4 mb-2">
-                <div class="card">
+                <div class="card rounded-3">
                     <img src=@prodotto.Img class="img-fluid rounded-start rounded-end" alt="prodotto" />
                     <div class="card-body d-flex flex-column justify-content-center">
                         <h5 class="card-title text-center">@prodotto.Name</h5>
