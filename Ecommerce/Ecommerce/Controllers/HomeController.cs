@@ -1,3 +1,4 @@
+using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 using Microsoft.Data.SqlClient;
 using Ecommerce.Models;
@@ -15,7 +16,7 @@ namespace Ecommerce.Controllers
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", false, true) 
+                .AddJsonFile("appsettings.json", false, true)
                 .Build();
 
             _connectionString = configuration.GetConnectionString("DefaultConnection");
@@ -103,7 +104,6 @@ namespace Ecommerce.Controllers
         {
             return View();
         }
-
         
     }
 }

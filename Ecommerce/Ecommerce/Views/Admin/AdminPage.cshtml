@@ -1,0 +1,37 @@
+﻿@model AdminProductsViewModel;
+@{
+    ViewData["Title"] = "Admin Page";
+}
+
+<h1>PAGINA AMMINISTRATORE</h1>
+
+<table class="table table-striped table-bordered table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>Id</th>
+            <th>Nome Prodotto</th>
+            <th>Prezzo</th>
+            <th>Descrizione corta</th>
+            <th>Id Categoria</th>
+            <th>Nome Categoria</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.AdminProducts)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+                <td>@product.DescriptionShort</td>
+                <td>@product.IdCategory</td>
+                <td>@product.CategoryName</td>
+
+                <td>
+                    <a class="btn btn-warning" asp-controller="Admin" asp-action="EditPage" asp-route-id="@product.Id">Edit</a>
+                    <a class="btn btn-danger" asp-controller="Admin" asp-action="Delete" asp-route-id="@product.Id">Delete</a> 
+                </td> 
+            </tr>
+        }
+    </tbody>
+</table>
