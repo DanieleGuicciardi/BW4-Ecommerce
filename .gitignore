@@ -46,7 +46,6 @@ node_modules/
 
 # Configuration files
 secrets.json
-appsettings*.json
 
 # Rider and JetBrains
 .idea/
