@@ -18,5 +18,8 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    background-image: url("https://www.lummi.ai/api/render/image/ac495322-3ebe-494d-b551-3365a892919d?token=eyJhbGciOiJIUzI1NiJ9.eyJpZCI6ImFjNDk1MzIyLTNlYmUtNDk0ZC1iNTUxLTMzNjVhODkyOTE5ZCIsImRvd25sb2FkU2l6ZSI6Im1lZGl1bSIsInJlbmRlclNwZWNzIjp7ImVmZmVjdHMiOnsicmVmcmFtZSI6e319fSwic2hvdWxkQXV0b0Rvd25sb2FkIjpmYWxzZSwianRpIjoiRWozU1YyQWhXcDZvc0VYWmFYVWhnIiwiaWF0IjoxNzQxMDExNDE3LCJleHAiOjE3NDEwMTE0Nzd9.fq6ds1AeaCDTII2cWguH1wrkBWxF_mc5wvHKm-FYAQ4");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
