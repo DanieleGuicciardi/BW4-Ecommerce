@@ -86,3 +86,11 @@ NEWID(), 'Carbonara', 18, 'Un classico della cucina romana: guanciale croccante,
 INSERT INTO CATEGORIES(Name, Img) VALUES (
 'Dolci', 'https://glovo.dhmedia.io/image/stores-glovo/stores/cd9ce163b9d7956d038a56c33b4cf0535ce77d0921f8576bb4af47c3b9466be0?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7Im1vZGUiOiJmaWxsIiwiYmciOiJ0cmFuc3BhcmVudCIsIndpZHRoIjo1ODgsImhlaWdodCI6MzIwfX1d'
 )
+
+INSERT INTO PRODUCTS(Id, Name, Price, Description, DescriptionShort, Img, IdCategory) VALUES
+(NEWID(), 'Tiramisù', 11, 'Cremoso e avvolgente, è un classico amato in tutto il mondo.', 'Coppa di Tiramisù monoporzione in vetro.', 'https://glovo.dhmedia.io/image/menus-glovo/products/6d82e0340fda5bc6d953655ad73a07250b2703ad62a7a8da9661beb08c76333f?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjo2MDB9fV0=',6),
+(NEWID(), 'Tortino al cioccolato', 9, 'Tortino al Cioccolato con Barattolino di Crema Pasticcera.', 'Servito caldo, sprigiona un''esplosione di cioccolato fuso ad ogni morso, perfetto per gli amanti del cacao.', 'https://glovo.dhmedia.io/image/menus-glovo/products/bf76c264592d249df107368c4f7e587f688e15cd0705bbde928f07aa3afc791a?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjo2MDB9fV0=',6);
+
+SELECT P.Id, P.Name, P.Price, P.Description, P.DescriptionShort, P.Img, C.Id FROM PRODUCTS P INNER JOIN CATEGORIES C ON P.IdCategory = C.Id WHERE P.IdCategory = 1;
+
+UPDATE PRODUCTS SET Description = 'Servito caldo, sprigiona un''esplosione di cioccolato fuso ad ogni morso, perfetto per gli amanti del cacao.'  WHERE Name = 'Tortino al cioccolato'
