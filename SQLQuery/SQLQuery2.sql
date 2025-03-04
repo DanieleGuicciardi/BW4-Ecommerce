@@ -42,20 +42,20 @@ INSERT INTO CATEGORIES(Name, Img) VALUES(
 
 INSERT INTO PRODUCTS(Id, Name, Price, Description, DescriptionShort, Img, IdCategory) VALUES
 (
-NEWID(),'Gran Crispy McBacon', 8.70, 'Chi ama il Crispy McBacon® ne prenderebbe volentieri un altro e un altro e un altro e un altro ancora. Per questo c’è il Gran Crispy McBacon®: panino con carne 100% bovina, croccante bacon 100% da pancetta italiana, formaggio e l''inconfondibile salsa Crispy. Come il classico, ma ancora più grande.',
-'Crispy McBacon® ti aspetta in versione Gran.', 'https://d19yn8po4ik6n2.cloudfront.net/TPO-IT_CSO_6363_v5.png', 1
+NEWID(),'Gran Crispy McBacon', 8.70, 'Chi ama il Crispy McBaconÂ® ne prenderebbe volentieri un altro e un altro e un altro e un altro ancora. Per questo câ€™Ã¨ il Gran Crispy McBaconÂ®: panino con carne 100% bovina, croccante bacon 100% da pancetta italiana, formaggio e l''inconfondibile salsa Crispy. Come il classico, ma ancora piÃ¹ grande.',
+'Crispy McBaconÂ® ti aspetta in versione Gran.', 'https://d19yn8po4ik6n2.cloudfront.net/TPO-IT_CSO_6363_v5.png', 1
 ),
 (
-NEWID(), 'BigMac', 7.20, 'Se pensi di conoscerlo alla perfezione è perché non l’hai ancora provato.
-Il Grande Classico di McDonald’s è pronto a stupirti con il suo gusto ancora più irresistibile. Lasciati avvolgere dal pane più caldo, trasportare dal sapore della sua carne più succosa e goditi un’ulteriore aggiunta della sua inconfondibile salsa: lo scoprirai ancora più buono.',
+NEWID(), 'BigMac', 7.20, 'Se pensi di conoscerlo alla perfezione Ã¨ perchÃ© non lâ€™hai ancora provato.
+Il Grande Classico di McDonaldâ€™s Ã¨ pronto a stupirti con il suo gusto ancora piÃ¹ irresistibile. Lasciati avvolgere dal pane piÃ¹ caldo, trasportare dal sapore della sua carne piÃ¹ succosa e goditi unâ€™ulteriore aggiunta della sua inconfondibile salsa: lo scoprirai ancora piÃ¹ buono.',
 'Un gusto impossibile da spiegare.', 'https://d19yn8po4ik6n2.cloudfront.net/TPO-IT_CSO_2040_v5.png', 1
 ),
 (
-NEWID(), 'Salsiccia e Friarielli', 14, 'La pizza salsiccia e friarielli è una specialità napoletana con base di pizza bianca, condita con friarielli (tipica verdura amarognola simile alle cime di rapa), salsiccia sbriciolata, aglio, olio e peperoncino. Gustosa e saporita, è un classico della tradizione partenopea.',
+NEWID(), 'Salsiccia e Friarielli', 14, 'La pizza salsiccia e friarielli Ã¨ una specialitÃ  napoletana con base di pizza bianca, condita con friarielli (tipica verdura amarognola simile alle cime di rapa), salsiccia sbriciolata, aglio, olio e peperoncino. Gustosa e saporita, Ã¨ un classico della tradizione partenopea.',
 'Provola affumicata d''Agerola, salsiccia e friarielli fatti in casa', 'https://glovo.dhmedia.io/image/menus-glovo/products/b2526164bab82d5d1768f9312447879b24b6ffa37560667c2fccd4505366969b?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjo2MDB9fV0=', 2
 ),
 (
-NEWID(), 'Bufalina', 14, 'La bufalina è una variante della margherita, preparata con mozzarella di bufala DOP,  pomodoro, basilico e olio extravergine d''oliva. Ha un sapore più intenso e una consistenza cremosa grazie alla qualità del formaggio.',
+NEWID(), 'Bufalina', 14, 'La bufalina Ã¨ una variante della margherita, preparata con mozzarella di bufala DOP,  pomodoro, basilico e olio extravergine d''oliva. Ha un sapore piÃ¹ intenso e una consistenza cremosa grazie alla qualitÃ  del formaggio.',
 'Pomodori pelati, spolverata di Grana Padano e mozzarella di bufala campana', 'https://glovo.dhmedia.io/image/menus-glovo/products/a7df2222c173950e6c558a7dfe029d71e890182b1bccba31e151e677a9be0f59?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjo2MDB9fV0=', 2
 ),
 (
@@ -79,8 +79,8 @@ NEWID(), 'Amatriciana', 16, 'Un piatto iconico della cucina laziale, con guancia
 'Pomodoro, guanciale e pecorino', 'https://glovo.dhmedia.io/image/menus-glovo/products/f385c6078f1fdcb10acc99bb164d1ee2f1dd5206cf92f47f2e2afc46bf0286f4?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjo2MDB9fV0=', 5
 ),
 (
-NEWID(), 'Carbonara', 18, 'Un classico della cucina romana: guanciale croccante, uova fresche, pecorino romano e pepe nero, per un piatto cremoso e ricco di sapore. Un connubio perfetto di semplicità e gusto.',
-'Un connubio perfetto di semplicità e gusto.', 'https://images-ext-1.discordapp.net/external/C7ScDJlOxs-BX3qAOBhOhizBnXpGzbolh43vxdHlAiQ/%3Ft%3DW3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjo2MDB9fV0%3D/https/glovo.dhmedia.io/image/menus-glovo/products/12be7475f4d232e9a62fe7fb3f85512e22604cf785737ac12a1b5e8e06288e24?format=webp&width=432&height=432', 5
+NEWID(), 'Carbonara', 18, 'Un classico della cucina romana: guanciale croccante, uova fresche, pecorino romano e pepe nero, per un piatto cremoso e ricco di sapore. Un connubio perfetto di semplicitÃ  e gusto.',
+'Un connubio perfetto di semplicitÃ  e gusto.', 'https://images-ext-1.discordapp.net/external/C7ScDJlOxs-BX3qAOBhOhizBnXpGzbolh43vxdHlAiQ/%3Ft%3DW3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjo2MDB9fV0%3D/https/glovo.dhmedia.io/image/menus-glovo/products/12be7475f4d232e9a62fe7fb3f85512e22604cf785737ac12a1b5e8e06288e24?format=webp&width=432&height=432', 5
 )
 
 INSERT INTO CATEGORIES(Name, Img) VALUES (
@@ -88,9 +88,22 @@ INSERT INTO CATEGORIES(Name, Img) VALUES (
 )
 
 INSERT INTO PRODUCTS(Id, Name, Price, Description, DescriptionShort, Img, IdCategory) VALUES
-(NEWID(), 'Tiramisù', 11, 'Cremoso e avvolgente, è un classico amato in tutto il mondo.', 'Coppa di Tiramisù monoporzione in vetro.', 'https://glovo.dhmedia.io/image/menus-glovo/products/6d82e0340fda5bc6d953655ad73a07250b2703ad62a7a8da9661beb08c76333f?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjo2MDB9fV0=',6),
+(NEWID(), 'TiramisÃ¹', 11, 'Cremoso e avvolgente, Ã¨ un classico amato in tutto il mondo.', 'Coppa di TiramisÃ¹ monoporzione in vetro.', 'https://glovo.dhmedia.io/image/menus-glovo/products/6d82e0340fda5bc6d953655ad73a07250b2703ad62a7a8da9661beb08c76333f?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjo2MDB9fV0=',6),
 (NEWID(), 'Tortino al cioccolato', 9, 'Tortino al Cioccolato con Barattolino di Crema Pasticcera.', 'Servito caldo, sprigiona un''esplosione di cioccolato fuso ad ogni morso, perfetto per gli amanti del cacao.', 'https://glovo.dhmedia.io/image/menus-glovo/products/bf76c264592d249df107368c4f7e587f688e15cd0705bbde928f07aa3afc791a?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjo2MDB9fV0=',6);
 
 SELECT P.Id, P.Name, P.Price, P.Description, P.DescriptionShort, P.Img, C.Id FROM PRODUCTS P INNER JOIN CATEGORIES C ON P.IdCategory = C.Id WHERE P.IdCategory = 1;
 
 UPDATE PRODUCTS SET Description = 'Servito caldo, sprigiona un''esplosione di cioccolato fuso ad ogni morso, perfetto per gli amanti del cacao.'  WHERE Name = 'Tortino al cioccolato'
+
+UPDATE PRODUCTS SET DescriptionShort = 'Tortino al Cioccolato con Barattolino di Crema Pasticcera.'  WHERE Name = 'Tortino al cioccolato'
+
+UPDATE CATEGORIES SET Img = 'https://glovo.dhmedia.io/image/stores-glovo/stores/fbcf4c0353dd90c9d00edccaf90b938367fc8335b9fda24b60e9fd307cc1bcfa?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7Im1vZGUiOiJmaWxsIiwiYmciOiJ0cmFuc3BhcmVudCIsIndpZHRoIjo1ODgsImhlaWdodCI6MzIwfX1d' WHERE Name = 'Burgers'
+
+UPDATE CATEGORIES SET Img = 'https://glovo.dhmedia.io/image/stores-glovo/stores/dd0618bb7e642e04bb66ffc32847bd79c9444bcaf74b32da4ed5f7bcb4485d49?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7Im1vZGUiOiJmaWxsIiwiYmciOiJ0cmFuc3BhcmVudCIsIndpZHRoIjo1ODgsImhlaWdodCI6MzIwfX1d' WHERE Name = 'Pizza'
+
+UPDATE CATEGORIES SET Img = 'https://glovo.dhmedia.io/image/stores-glovo/stores/060040a3e6faed5fcf2f233b0f98030675ca5cd8f4bf0e04de9d002998a005b4?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7Im1vZGUiOiJmaWxsIiwiYmciOiJ0cmFuc3BhcmVudCIsIndpZHRoIjo1ODgsImhlaWdodCI6MzIwfX1d' WHERE Name = 'Pasta'
+
+UPDATE CATEGORIES SET Img = 'https://glovo.dhmedia.io/image/stores-glovo/stores/be80b454509d971d17bdb6fc84ccab726dce785f6aed6d894569132d8887f5ea?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7Im1vZGUiOiJmaWxsIiwiYmciOiJ0cmFuc3BhcmVudCIsIndpZHRoIjo1ODgsImhlaWdodCI6MzIwfX1d' WHERE Name = 'Kebab'
+
+UPDATE CATEGORIES SET Img = 'https://glovo.dhmedia.io/image/stores-glovo/stores/f8b20932b8feee7b3ee2a5f8e68fcef38eb8b083d0c5d744964730a1582c1b36?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7Im1vZGUiOiJmaWxsIiwiYmciOiJ0cmFuc3BhcmVudCIsIndpZHRoIjo1ODgsImhlaWdodCI6MzIwfX1d' WHERE Name = 'Sushi'
+
