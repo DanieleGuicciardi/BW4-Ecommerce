@@ -7,6 +7,10 @@
 
 <h1 class="mt-4 pt-4">Edit Prodotto</h1>
 
+@if (TempData["Error"] != null)
+{
+	<span class="text-danger">@TempData["Error"]</span>
+}
 
 <div style="min-height: 80vh">
 
@@ -19,7 +23,7 @@
 
 		<div>
 			<label for="price" asp-for="Price" class="form-label"></label>
-			<input id="price" asp-for="Price" class="form-control" />
+			<input type="number" id="price" asp-for="Price" class="form-control" />
 			<span class="text-danger" asp-validation-for="Price"></span>
 		</div>
 
@@ -69,3 +73,12 @@
 		</div>
 	</form>
 </div>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+	<script>
+			document.getElementById("price").addEventListener("input", function() {
+				this.value = this.value.replace('.', ',');
+		});
+	</script>
+}
