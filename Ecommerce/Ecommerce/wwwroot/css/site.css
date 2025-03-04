@@ -25,6 +25,7 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
+    box-sizing: border-box;
 }
 
 body::before {
@@ -45,6 +46,10 @@ body::before {
 .bigTitle {
     font-family: "Rozha One", serif;
     line-height: 0.9;
+}
+
+.logoBig{
+    border-radius: 50%;
 }
 
 .categoria {
