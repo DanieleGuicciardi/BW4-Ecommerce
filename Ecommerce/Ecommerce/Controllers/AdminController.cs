@@ -71,7 +71,7 @@ namespace Ecommerce.Controllers
             {
                 await connection.OpenAsync();
                 var query = "SELECT * FROM PRODUCTS WHERE Id = @Id";
-                var query2 = "SELECT Id, Name FROM CATEGORIES";
+                var query2 = "SELECT * FROM CATEGORIES";
 
                 await using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -108,6 +108,7 @@ namespace Ecommerce.Controllers
                                 {
                                     Id = reader.GetInt32(0),
                                     Name = reader.GetString(1),
+                                    Img = reader.GetString(2),
                                 }
                             );
                         }

@@ -2,7 +2,7 @@
 @{
 	ViewData["Title"] = "Edit Page";
 
-	var categories = ViewBag.CategoryList as List<Category>;
+	List<Category> categories = ViewBag.CategoryList;
 }
 
 <h1 class="mt-4 pt-4">Edit Prodotto</h1>
@@ -56,7 +56,7 @@
 		<div>
 			<label for="idCategory" asp-for="IdCategory" class="form-label"></label>
 			<select asp-for="IdCategory">
-				@foreach (var category in categories!){
+				@foreach (var category in categories){
 					<option value="@category.Id">@category.Name</option>
 				}
 			</select>
