@@ -1,0 +1,65 @@
+﻿@model EditProduct;
+@{
+    ViewData["Title"] = "Edit Page";
+}
+
+<h1 class="mt-4 pt-4">Edit Prodotto</h1>
+
+
+<div style="min-height: 80vh" class="pb-4 mb-5">
+
+	<form method="post" asp-controller="Admin" asp-action="SaveEdit" asp-route-id="@Model.Id">
+		<div>
+			<label for="name" asp-for="Name" class="form-label"></label>
+			<input id="name" asp-for="Name" class="form-control" />
+			<span class="text-danger" asp-validation-for="Name"></span>
+		</div>
+
+		<div>
+			<label for="price" asp-for="Price" class="form-label"></label>
+			<input id="price" asp-for="Price" class="form-control" />
+			<span class="text-danger" asp-validation-for="Price"></span>
+		</div>
+
+		<div>
+			<label for="description" asp-for="Description" class="form-label"></label>
+			<textarea id="description" asp-for="Description" class="form-control"></textarea>
+			<span class="text-danger" asp-validation-for="Description"></span>
+		</div>
+
+		<div>
+			<label for="descriptionShort" asp-for="DescriptionShort" class="form-label"></label>
+			<textarea id="descriptionShort" asp-for="DescriptionShort" class="form-control"></textarea>
+			<span class="text-danger" asp-validation-for="DescriptionShort"></span>
+		</div>
+
+		<div>
+			<label for="img" asp-for="Img" class="form-label"></label>
+			<input id="img" asp-for="Img" class="form-control" />
+			<span class="text-danger" asp-validation-for="Img"></span>
+		</div>
+
+		<div>
+			<label for="img2" asp-for="Img2" class="form-label"></label>
+			<input id="img2" asp-for="Img2" class="form-control" />
+			<span class="text-danger" asp-validation-for="Img2"></span>
+		</div>
+
+		<div>
+			<label for="img3" asp-for="Img3" class="form-label"></label>
+			<input id="img3" asp-for="Img3" class="form-control" />
+			<span class="text-danger" asp-validation-for="Img3"></span>
+		</div>
+
+		<div>
+			<label for="idCategory" asp-for="IdCategory" class="form-label"></label>
+			<input id="idCategory" asp-for="IdCategory" class="form-control" />
+			<span class="text-danger" asp-validation-for="IdCategory"></span>
+		</div>
+
+		<div class="mt-2">
+			<button class="btn btn-success" type="submit">Save</button>
+			<button class="btn btn-warning" type="reset">Reset</button>
+		</div>
+	</form>
+</div>

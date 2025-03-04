@@ -1,0 +1,37 @@
+﻿@model AdminProductsViewModel;
+@{
+    ViewData["Title"] = "Admin Page";
+}
+
+<div class="container-fluid my-5 py-3">
+	<h1 class="mb-4 pt-4 text-center">PAGINA AMMINISTRATORE</h1>
+
+	<table class="table table-striped table-bordered table-hover">
+		<thead class="thead-dark ">
+			<tr class="text-center">
+				<th>Id</th>
+				<th>Prodotto</th>
+				<th>Prezzo</th>
+				<th>Descrizione corta</th>
+				<th>Categoria</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var product in Model.AdminProducts)
+			{
+				<tr>
+					<td>@product.Id</td>
+					<td>@product.Name</td>
+					<td>@product.Price</td>
+					<td>@product.DescriptionShort</td>
+					<td>@product.CategoryName</td>
+					<td class=" d-flex border-0">
+						<a class="btn btn-warning btn-sm mx-1" asp-controller="Admin" asp-action="EditPage" asp-route-id="@product.Id"><i class="bi bi-pencil-square"></i></a>
+						<a class="btn btn-danger btn-sm mx-1" asp-controller="Admin" asp-action="Delete" asp-route-id="@product.Id"><i class="bi bi-trash3"></i></a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
