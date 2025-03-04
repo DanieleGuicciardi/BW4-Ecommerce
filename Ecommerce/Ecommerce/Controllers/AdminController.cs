@@ -62,11 +62,16 @@ namespace Ecommerce.Controllers
         public async Task<IActionResult> EditPage(Guid id)
         {
             var editProduct = new EditProduct();
+            var categoryList = new CategoryViewModel()
+            {
+                Categories = new List<Category>()
+            };
 
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
                 var query = "SELECT * FROM PRODUCTS WHERE Id = @Id";
+                var query2 = "SELECT Id, Name FROM CATEGORIES";
 
                 await using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -91,7 +96,26 @@ namespace Ecommerce.Controllers
                         }
                     }
                 }
+
+                await using (SqlCommand command = new SqlCommand(query2, connection))
+                {
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            categoryList.Categories.Add(
+                                new Category()
+                                {
+                                    Id = reader.GetInt32(0),
+                                    Name = reader.GetString(1),
+                                }
+                            );
+                        }
+                    }
+                }
             }
+            ViewBag.CategoryList = categoryList;
+
             return View(editProduct);
         }
 
