@@ -9,8 +9,11 @@
         <img src="@Model.Img" class="img-fluid rounded" style="max-width: 400px;" alt="@Model.Name">
     </div>
     <h1 class="text-center">@Model.Name</h1>
-    <p class="text-center mt-3"><strong>Prezzo:</strong> € @Model.Price</p>
+    <p class="text-center mt-3"><strong>Prezzo:</strong> € @Model.Price.ToString("F2")</p>
     <p class="text-center"><strong>Descrizione:</strong> @Model.Description</p>
+    <form method="post" action="/details/add-to-cart/@Model.Id">
+        <button type="submit">Aggiungi al Carrello</button>
+    </form>
     <div class="text-center mt-3">
         <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Torna ai prodotti</a>
     </div>
