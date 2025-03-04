@@ -6,7 +6,7 @@ namespace Ecommerce.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public SqlMoney Price { get; set; }
+        public decimal Price { get; set; }
         public string DescriptionShort { get; set; }
         public int IdCategory { get; set; }
         public string CategoryName { get; set; }
