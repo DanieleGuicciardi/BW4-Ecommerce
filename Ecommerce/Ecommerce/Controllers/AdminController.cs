@@ -58,20 +58,51 @@ namespace Ecommerce.Controllers
             }
         }
 
+        private async Task<List<Category>> GetCategories()
+        {
+            List<Category> listaCategorie = new List<Category>();
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var query = "SELECT * FROM CATEGORIES";
+
+                await using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+
+                        while (await reader.ReadAsync())
+                        {
+                            listaCategorie.Add(
+                                new Category()
+                                {
+                                    Id = reader.GetInt32(0),
+                                    Name = reader.GetString(1),
+                                    Img = reader.GetString(2),
+                                }
+                            );
+                        }
+                    }
+                }
+            }
+
+            return listaCategorie;
+
+        }
+
         [HttpGet("Admin/AdminPage/EditPage/{id:guid}")]
         public async Task<IActionResult> EditPage(Guid id)
         {
             var editProduct = new EditProduct();
             var categoryList = new CategoryViewModel()
             {
-                Categories = new List<Category>()
+                Categories = await GetCategories()
             };
 
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
                 var query = "SELECT * FROM PRODUCTS WHERE Id = @Id";
-                var query2 = "SELECT Id, Name FROM CATEGORIES";
 
                 await using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -96,24 +127,8 @@ namespace Ecommerce.Controllers
                         }
                     }
                 }
-
-                await using (SqlCommand command = new SqlCommand(query2, connection))
-                {
-                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            categoryList.Categories.Add(
-                                new Category()
-                                {
-                                    Id = reader.GetInt32(0),
-                                    Name = reader.GetString(1),
-                                }
-                            );
-                        }
-                    }
-                }
             }
+
             ViewBag.CategoryList = categoryList;
 
             return View(editProduct);
@@ -141,7 +156,6 @@ namespace Ecommerce.Controllers
                         command.Parameters.AddWithValue("@Img2", editProduct.Img2);
                         command.Parameters.AddWithValue("@Img3", editProduct.Img3);
                         command.Parameters.AddWithValue("@IdCategory", editProduct.IdCategory);
-
                         int righeInteressate = await command.ExecuteNonQueryAsync();
                     }
                 }
@@ -195,8 +209,124 @@ namespace Ecommerce.Controllers
                         int righeInteressate = await command.ExecuteNonQueryAsync();
                     }
                 }
-                
+
             }
+            return RedirectToAction("AdminPage");
+        }
+
+        public async Task<IActionResult> AddPage()
+        {
+            var model = new AddProductModel()
+            {
+                Categories = await GetCategories()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddProduct(AddProductModel addProduct)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "Try again!";
+                return RedirectToAction("AddPage");
+            }
+
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                if (addProduct.Img2 != null && addProduct.Img3 != null)
+                {
+                    var query = $"INSERT INTO PRODUCTS VALUES (@Id, @Name, @Price, @Description, @DescriptionShort, @Img, @Img2, @Img3, @IdCategory)";
+                    await using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", Guid.NewGuid());
+                        command.Parameters.AddWithValue("@Name", addProduct.Name);
+                        command.Parameters.AddWithValue("@Price", addProduct.Price);
+                        command.Parameters.AddWithValue("@Description", addProduct.Description);
+                        command.Parameters.AddWithValue("@DescriptionShort", addProduct.DescriptionShort);
+                        command.Parameters.AddWithValue("@Img", addProduct.Img);
+                        command.Parameters.AddWithValue("@Img2", addProduct.Img2);
+                        command.Parameters.AddWithValue("@Img3", addProduct.Img3);
+                        command.Parameters.AddWithValue("@IdCategory", addProduct.IdCategory);
+
+                        int righeInteressate = await command.ExecuteNonQueryAsync();
+                    }
+                }
+                else if (addProduct.Img2 != null)
+                {
+                    var query = $"INSERT INTO PRODUCTS(Id, Name, Price, Description, DescriptionShort, Img, Img2, IdCategory) VALUES (@Id, @Name, @Price, @Description, @DescriptionShort, @Img, @Img2, @IdCategory)";
+                    await using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", Guid.NewGuid());
+                        command.Parameters.AddWithValue("@Name", addProduct.Name);
+                        command.Parameters.AddWithValue("@Price", addProduct.Price);
+                        command.Parameters.AddWithValue("@Description", addProduct.Description);
+                        command.Parameters.AddWithValue("@DescriptionShort", addProduct.DescriptionShort);
+                        command.Parameters.AddWithValue("@Img", addProduct.Img);
+                        command.Parameters.AddWithValue("@Img2", addProduct.Img2);
+                        command.Parameters.AddWithValue("@IdCategory", addProduct.IdCategory);
+
+                        int righeInteressate = await command.ExecuteNonQueryAsync();
+                    }
+                }
+                else if (addProduct.Img3 != null)
+                {
+                    var query = $"INSERT INTO PRODUCTS(Id, Name, Price, Description, DescriptionShort, Img, Img3, IdCategory) VALUES (@Id, @Name, @Price, @Description, @DescriptionShort, @Img, @Img3, @IdCategory)";
+                    await using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", Guid.NewGuid());
+                        command.Parameters.AddWithValue("@Name", addProduct.Name);
+                        command.Parameters.AddWithValue("@Price", addProduct.Price);
+                        command.Parameters.AddWithValue("@Description", addProduct.Description);
+                        command.Parameters.AddWithValue("@DescriptionShort", addProduct.DescriptionShort);
+                        command.Parameters.AddWithValue("@Img", addProduct.Img);
+                        command.Parameters.AddWithValue("@Img3", addProduct.Img3);
+                        command.Parameters.AddWithValue("@IdCategory", addProduct.IdCategory);
+
+                        int righeInteressate = await command.ExecuteNonQueryAsync();
+                    }
+                }
+                else
+                {
+                    var query = $"INSERT INTO PRODUCTS(Id, Name, Price, Description, DescriptionShort, Img, IdCategory) VALUES (@Id, @Name, @Price, @Description, @DescriptionShort, @Img, @IdCategory)";
+                    await using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", Guid.NewGuid());
+                        command.Parameters.AddWithValue("@Name", addProduct.Name);
+                        command.Parameters.AddWithValue("@Price", addProduct.Price);
+                        command.Parameters.AddWithValue("@Description", addProduct.Description);
+                        command.Parameters.AddWithValue("@DescriptionShort", addProduct.DescriptionShort);
+                        command.Parameters.AddWithValue("@Img", addProduct.Img);
+                        command.Parameters.AddWithValue("@IdCategory", addProduct.IdCategory);
+
+                        int righeInteressate = await command.ExecuteNonQueryAsync();
+                    }
+                }
+
+            }
+
+            return RedirectToAction("AdminPage");
+        }
+
+        [HttpGet("Admin/AdminPage/Delete/{id:guid}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var query = "DELETE FROM PRODUCTS WHERE Id = @Id";
+
+                await using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
+
+                    int righeInteressate = await command.ExecuteNonQueryAsync();
+                }
+            }
+
             return RedirectToAction("AdminPage");
         }
     }
