@@ -57,14 +57,13 @@ namespace Ecommerce.Controllers
         [HttpPost("details/add-to-cart/{id:guid}")]
         public async Task<IActionResult> AddToCart(Guid id)
         {
-            int categoryId = 0;        //variabile per mantenere l id della categoria per far funzionare il collegamento
+            int categoryId = 0;
 
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
 
                 string getCategoryQuery = "SELECT IdCategory FROM PRODUCTS WHERE Id = @Id";
-
                 await using (SqlCommand categoryCommand = new SqlCommand(getCategoryQuery, connection))
                 {
                     categoryCommand.Parameters.AddWithValue("@Id", id);
@@ -76,15 +75,37 @@ namespace Ecommerce.Controllers
                     }
                 }
 
-                string insertQuery = "INSERT INTO CART (Id, Quantity, IdProduct) VALUES (@Id, @Quantity, @IdProduct)";
-
-                await using (SqlCommand insertCommand = new SqlCommand(insertQuery, connection))
+                //funzione che controlla se il product e gia nel cart
+                string checkQuery = "SELECT Quantity FROM CART WHERE IdProduct = @IdProduct";
+                await using (SqlCommand checkCommand = new SqlCommand(checkQuery, connection))
                 {
-                    insertCommand.Parameters.AddWithValue("@Id", Guid.NewGuid());
-                    insertCommand.Parameters.AddWithValue("@Quantity", 1);
-                    insertCommand.Parameters.AddWithValue("@IdProduct", id);
+                    checkCommand.Parameters.AddWithValue("@IdProduct", id);
+                    var existingQuantity = await checkCommand.ExecuteScalarAsync();
 
-                    await insertCommand.ExecuteNonQueryAsync();
+                    if (existingQuantity != null)
+                    {
+                        int newQuantity = Convert.ToInt32(existingQuantity) + 1;
+                        string updateQuery = "UPDATE CART SET Quantity = @Quantity WHERE IdProduct = @IdProduct";
+
+                        await using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
+                        {
+                            updateCommand.Parameters.AddWithValue("@Quantity", newQuantity);
+                            updateCommand.Parameters.AddWithValue("@IdProduct", id);
+                            await updateCommand.ExecuteNonQueryAsync();
+                        }
+                    }
+                    else
+                    {
+                        string insertQuery = "INSERT INTO CART (Id, Quantity, IdProduct) VALUES (@Id, @Quantity, @IdProduct)";
+
+                        await using (SqlCommand insertCommand = new SqlCommand(insertQuery, connection))
+                        {
+                            insertCommand.Parameters.AddWithValue("@Id", Guid.NewGuid());
+                            insertCommand.Parameters.AddWithValue("@Quantity", 1);
+                            insertCommand.Parameters.AddWithValue("@IdProduct", id);
+                            await insertCommand.ExecuteNonQueryAsync();
+                        }
+                    }
                 }
             }
 
