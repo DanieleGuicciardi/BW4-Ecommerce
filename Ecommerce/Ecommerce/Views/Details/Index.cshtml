@@ -4,18 +4,32 @@
     ViewData["Title"] = "Dettagli Prodotto";
 }
 
-<div class="container my-5">
-    <div class="text-center">
-        <img src="@Model.Img" class="img-fluid rounded" style="max-width: 400px;" alt="@Model.Name">
-    </div>
-    <h1 class="text-center">@Model.Name</h1>
-    <p class="text-center mt-3"><strong>Prezzo:</strong> € @Model.Price.ToString("F2")</p>
-    <p class="text-center"><strong>Descrizione:</strong> @Model.Description</p>
-    <form method="post" action="/details/add-to-cart/@Model.Id">
-        <button type="submit">Aggiungi al Carrello</button>
-    </form>
-    <div class="text-center mt-3">
-        <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Torna ai prodotti</a>
+<div class="container mt-5 py-3 d-flex align-items-center" style="height: 90dvh">
+    <div class="row align-items-center text-center">
+    <div class="col-1"></div>
+        <div class="col-5 text-center p-0">
+            <img src="@Model.Img" id="image" class="w-100 rounded-3 border" style="max-width: 400px;">
+        </div>
+        <div class="col-5 mt-3 px-0 d-flex">
+            <div class="row justify-content-start" id="row">
+                <div class="col-12"><p class="h4" id="productName">@Model.Name</p></div>
+                <div class="col-12">
+                    <p id="price" class="fw-bold text-black-50">
+                        €
+                        @Model.Price
+                    </p>
+                </div>
+                <div class="col-12"><p id="description">@Model.Description</p></div>
+                <form method="post" action="/details/add-to-cart/@Model.Id">
+                    <button type="submit">Aggiungi al Carrello</button>
+                </form>
+                <div class="text-center mt-3 col-12">
+                    <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Torna ai prodotti</a>
+                </div>
+            </div>
+            </div>
+            <div class="col-1"></div>
+        </div>
     </div>
 </div>
 
