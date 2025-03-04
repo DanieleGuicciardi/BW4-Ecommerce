@@ -44,7 +44,7 @@ namespace Ecommerce.Controllers
                                 {
                                     Id = reader.GetGuid(0),
                                     Name = reader.GetString(1),
-                                    Price = reader.GetSqlMoney(2),
+                                    Price = reader.GetDecimal(2),
                                     DescriptionShort = reader.GetString(3),
                                     IdCategory = reader.GetInt32(4),
                                     CategoryName = reader.GetString(5),
