@@ -2,13 +2,13 @@
 @{
 	ViewData["Title"] = "Edit Page";
 
-	var categories = ViewBag.CategoryList as List<Category>;
+	CategoryViewModel categories = ViewBag.CategoryList;
 }
 
 <h1 class="mt-4 pt-4">Edit Prodotto</h1>
 
 
-<div style="min-height: 80vh" class="pb-4 mb-5">
+<div style="min-height: 80vh">
 
 	<form method="post" asp-controller="Admin" asp-action="SaveEdit" asp-route-id="@Model.Id">
 		<div>
@@ -56,11 +56,10 @@
 		<div>
 			<label for="idCategory" asp-for="IdCategory" class="form-label"></label>
 			<select asp-for="IdCategory">
-				@foreach (var category in categories!){
+				@foreach (var category in categories.Categories){
 					<option value="@category.Id">@category.Name</option>
 				}
 			</select>
-			@* <input id="idCategory" asp-for="IdCategory" class="form-control" /> *@
 			<span class="text-danger" asp-validation-for="IdCategory"></span>
 		</div>
 
