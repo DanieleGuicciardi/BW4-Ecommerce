@@ -18,7 +18,9 @@
                         <p class="card-text text-center">€ @prodotto.Price</p>
                         <p class="card-text text-center descShort">@prodotto.DescriptionShort</p>
                         <div class="d-flex align-items-center justify-content-end">
-                            <a asp-controller="" asp-action="" asp-route-id="@prodotto.Id" class="me-4 text-decoration-none"><i class="bi bi-info-circle"></i> Info</a>
+                            <a asp-controller="Details" asp-action="Index" asp-route-id="@prodotto.Id" class="me-4 text-decoration-none">
+                                <i class="bi bi-info-circle"></i> Info
+                            </a>
                         </div>
                     </div>
                 </div>
