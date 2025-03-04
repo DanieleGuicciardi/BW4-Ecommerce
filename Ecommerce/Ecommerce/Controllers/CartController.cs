@@ -60,5 +60,22 @@ namespace Ecommerce.Controllers
             }
             return View(cartViewModel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(Guid cartId)
+        {
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query = "DELETE FROM CART WHERE Id = @CartId";
+
+                await using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@CartId", cartId);
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

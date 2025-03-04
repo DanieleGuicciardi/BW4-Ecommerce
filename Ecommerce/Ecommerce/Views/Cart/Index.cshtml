@@ -13,9 +13,10 @@
             <tr>
                 <th>Immagine</th>
                 <th>Nome</th>
-                <th>Quantità</th>  
+                <th>Quantità</th>
                 <th>Prezzo</th>
                 <th>Totale</th>
+                <th>Azioni</th>
             </tr>
         </thead>
         <tbody>
@@ -27,6 +28,12 @@
                     <td>@item.Quantity</td>
                     <td>@item.Product.Price.ToString("F2") €</td>
                     <td>@(item.Product.Price * item.Quantity).ToString("F2") €</td>
+                    <td>
+                        <form method="post" asp-controller="Cart" asp-action="Delete">
+                            <input type="hidden" name="cartId" value="@item.CartId" />
+                            <button type="submit" class="btn btn-danger">Rimuovi</button>
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>
