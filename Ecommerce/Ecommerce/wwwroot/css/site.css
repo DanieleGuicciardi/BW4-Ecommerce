@@ -53,7 +53,7 @@ body::before {
 }
 
 .categoria {
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.1s ease-in-out;
 }
 
 .categoria:hover{
@@ -70,6 +70,18 @@ body::before {
 
 .descShort{
     height:35px;
+}
+
+.imgPiccole{
+    width: 60%;
+}
+
+.centroTab {
+    vertical-align: middle;
+}
+
+.table {
+    background: rgba(80, 169, 177, 0.3);
 }
 
 .footer {
