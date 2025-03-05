@@ -9,14 +9,43 @@ namespace Ecommerce.Controllers
     public class DetailsController : Controller
     {
         private readonly string _connectionString;
+        public async Task<Object> Banner()
+        {
+            int quantita = 0;
 
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query2 = @"SELECT SUM(Quantity) FROM CART";
+
+                await using (SqlCommand command = new SqlCommand(query2, connection))
+                {
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            if (!reader.IsDBNull(0))
+                            {
+                                quantita = reader.GetInt32(0);
+                            }
+                            else
+                            {
+                                quantita = 0;
+                            }
+
+                        }
+                    };
+                }
+            }
+            return TempData["TotQuantita"] = quantita;
+        }
         public DetailsController(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         [HttpGet("details/{id:guid}")]
-        public async Task<IActionResult> Index(Guid id)
+        public async Task<IActionResult> Index(Guid id, bool toastAttivo)
         {
             Product product = new Product();
 
@@ -63,6 +92,8 @@ namespace Ecommerce.Controllers
                 }
             }
 
+            TempData["Toast"] = toastAttivo;
+            await Banner();
             return View(product);
         }
 
@@ -119,9 +150,12 @@ namespace Ecommerce.Controllers
                         }
                     }
                 }
+
             }
 
-            return RedirectToAction("PrintProducts", "Home", new { id = categoryId });
+            await Banner();
+            var toastAttivo = true;
+            return RedirectToAction("Index", new { id, toastAttivo });
         }
 
 
