@@ -28,6 +28,11 @@ namespace Ecommerce.Controllers
                 AdminProducts = new List<AdminProduct>()
             };
 
+            var categoryList = new CategoryViewModel()
+            {
+                Categories = await GetCategories()
+            };
+
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
@@ -53,6 +58,8 @@ namespace Ecommerce.Controllers
                         }
                     }
                 }
+
+                ViewBag.CategoryList = categoryList;
 
                 return View(productsList);
             }
