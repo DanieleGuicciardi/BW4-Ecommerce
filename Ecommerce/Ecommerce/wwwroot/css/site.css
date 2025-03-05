@@ -84,20 +84,20 @@ body {
     background: rgba(80, 169, 177, 0.3);
 }
 
-.carousel-item{
-   min-height: 200px;
+.carousel-item {
+    min-height: 200px;
 }
 
-.carousel-item img{
-    object-fit: contain;
-}
+    .carousel-item img {
+        object-fit: contain;
+    }
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
     filter: invert(1);
 }
 
-    .footer {
+.footer {
     background: rgba(255, 255, 255, 0.25);
 }
 
@@ -388,4 +388,102 @@ body {
 
 .button:focus {
     box-shadow: 0px 0px 0px 4px rgba(242, 113, 65, 0.253) !important;
+}
+
+/*BOTTONE NUOVO PRODOTTO*/
+
+.icon-btn {
+    width: 50px;
+    height: 50px;
+    background: #F27141;
+    border: 1px solid #F27141;
+    border-radius: 25px;
+    overflow: hidden;
+    position: relative;
+    transition: width 0.2s ease-in-out;
+    font-weight: 500;
+    box-shadow: 0px 0px 0px 4px rgba(242, 113, 65, 0.253) !important;
+}
+
+.add-btn:hover {
+    width: 175px;
+}
+
+.add-btn::before,
+.add-btn::after {
+    transition: width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+    content: "";
+    position: absolute;
+    height: 4px;
+    width: 10px;
+    top: calc(50% - 2px);
+    background: white;
+}
+
+.add-btn::after {
+    right: 14px;
+    overflow: hidden;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.add-btn::before {
+    left: 14px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.icon-btn:focus {
+    outline: none;
+}
+
+.btn-txt {
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.add-btn:hover::before,
+.add-btn:hover::after {
+    width: 4px;
+    border-radius: 2px;
+}
+
+.add-btn:hover .btn-txt {
+    opacity: 1;
+}
+
+.add-icon::after,
+.add-icon::before {
+    transition: all 0.3s ease-in-out;
+    content: "";
+    position: absolute;
+    height: 20px;
+    width: 2px;
+    top: calc(50% - 10px);
+    background: white;
+    overflow: hidden;
+}
+
+.add-icon::before {
+    left: 22px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.add-icon::after {
+    right: 22px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.add-btn:hover .add-icon::before {
+    left: 15px;
+    height: 4px;
+    top: calc(50% - 2px);
+}
+
+.add-btn:hover .add-icon::after {
+    right: 15px;
+    height: 4px;
+    top: calc(50% - 2px);
 }

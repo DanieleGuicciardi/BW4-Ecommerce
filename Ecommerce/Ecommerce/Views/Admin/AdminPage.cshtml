@@ -16,8 +16,12 @@
 		<div class="col-2">
 		</div>
 	</div>
-	<div class="text-end">
-		<a class="btn btn-warning btn-sm mt-1 mb-3" asp-controller="Admin" asp-action="AddPage"><i class="bi bi-plus-lg"></i> AGGIUNGI PRODOTTO</a>
+	<div class="d-flex justify-content-end mb-3">
+		<button class="icon-btn add-btn" onclick="location.href='@Url.Action("AddPage", "Admin")'">
+			<div class="add-icon"></div>
+			<div class="btn-txt text-white">Nuovo prodotto</div>
+		</button>
+
 	</div>
 	<table class="table table-bordered table-hover">
 		<thead class="thead-dark ">
