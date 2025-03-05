@@ -123,7 +123,5 @@ namespace Ecommerce.Controllers
 
             return RedirectToAction("PrintProducts", "Home", new { id = categoryId });
         }
-
-
     }
 }
