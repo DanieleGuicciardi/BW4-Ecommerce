@@ -1,4 +1,5 @@
-﻿using Ecommerce.Models;
+﻿using System.Reflection.PortableExecutable;
+using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Identity.Client;
@@ -227,6 +228,61 @@ namespace Ecommerce.Controllers
             return RedirectToAction("AdminPage");
         }
 
+        [HttpGet("Admin/AdminPage/EditCategoryPage/{id:int}")]
+        public async Task<IActionResult> EditCategoryPage(int id)
+        {
+            var editCategory = new Category();
+
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var query = "SELECT * FROM CATEGORIES WHERE Id = @Id";
+
+                await using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
+
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            editCategory.Id = id;
+                            editCategory.Name = reader.GetString(1);
+                            editCategory.Img = reader.GetString(2);
+                        }
+                    }
+                }
+            }
+            return View(editCategory);
+        }
+
+        [HttpPost("Admin/AdminPage/EditCategoryPage/SaveEditCategory/{id:int}")]
+        public async Task<IActionResult> EditCategory(int id, Category editCategory)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "Errore nel modello del form";
+                return RedirectToAction("EditCategoryPage", new { id });
+            }
+
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var query = $"UPDATE CATEGORIES SET Name=@Name, Img=@Img WHERE Id=@Id";
+                await using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
+
+                    command.Parameters.AddWithValue("@Name", editCategory.Name);
+                    command.Parameters.AddWithValue("@Img", editCategory.Img);
+
+                    int righeInteressate = await command.ExecuteNonQueryAsync();
+                }
+            }
+
+            return RedirectToAction("AdminPage");
+        }
+
         public async Task<IActionResult> AddPage()
         {
             var model = new AddProductModel()
@@ -235,6 +291,37 @@ namespace Ecommerce.Controllers
             };
 
             return View(model);
+        }
+
+        public IActionResult AddCategoryPage()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCategory(Category addCategory)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "Errore nel modello del form";
+                return RedirectToAction("AddCategoryPage");
+            }
+
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var query = $"INSERT INTO CATEGORIES(Name, Img) VALUES (@Name, @Img)";
+                await using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Name", addCategory.Name);
+                    command.Parameters.AddWithValue("@Img", addCategory.Img);
+
+                    int righeInteressate = await command.ExecuteNonQueryAsync();
+                }
+            }
+
+            return RedirectToAction("AdminPage");
         }
 
         [HttpPost]
@@ -338,6 +425,43 @@ namespace Ecommerce.Controllers
 
                     int righeInteressate = await command.ExecuteNonQueryAsync();
                 }
+            }
+
+            return RedirectToAction("AdminPage");
+        }
+
+        [HttpGet("Admin/AdminPage/Delete/{id:int}")]
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            int pippo = 1;
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var queryCheck = "SELECT COUNT(*) FROM PRODUCTS WHERE IdCategory = @Id";
+                var query = "DELETE FROM CATEGORIES WHERE Id = @Id";
+                await using (SqlCommand command = new SqlCommand(queryCheck, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id); 
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+
+                        while (await reader.ReadAsync())
+                        {
+                            pippo = reader.GetInt32(0);
+                        }
+                    }
+                }
+                if (pippo == 0)
+                {
+                    await using (SqlCommand command2 = new SqlCommand(query, connection))
+                    {
+                        command2.Parameters.AddWithValue("@Id", id);
+
+                        int righeInteressate = await command2.ExecuteNonQueryAsync();
+                    }
+                }
+                else { TempData["ErrorDel"] = "Errore: Impossibile cancellare la categoria, presenti prodotti"; }
+
             }
 
             return RedirectToAction("AdminPage");

@@ -20,6 +20,7 @@ namespace Ecommerce.Models
         public string? DescriptionShort { get; set; }
         [Display(Name = "Immagine Principale")]
         [Required(ErrorMessage = "l'immagine principale è obbligatoria")]
+        [Url(ErrorMessage = "Errore: inserisci un URL valido")]
         public string? Img { get; set; }
         [Display(Name = "Immagine 2")]
         public string? Img2 { get; set; }
