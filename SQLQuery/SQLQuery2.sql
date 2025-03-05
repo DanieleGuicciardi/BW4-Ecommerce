@@ -107,3 +107,60 @@ UPDATE CATEGORIES SET Img = 'https://glovo.dhmedia.io/image/stores-glovo/stores/
 
 UPDATE CATEGORIES SET Img = 'https://glovo.dhmedia.io/image/stores-glovo/stores/f8b20932b8feee7b3ee2a5f8e68fcef38eb8b083d0c5d744964730a1582c1b36?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7Im1vZGUiOiJmaWxsIiwiYmciOiJ0cmFuc3BhcmVudCIsIndpZHRoIjo1ODgsImhlaWdodCI6MzIwfX1d' WHERE Name = 'Sushi'
 
+UPDATE PRODUCTS SET Img2 = 'https://www.mcdonalds.it/sites/default/files/styles/compressed/public/ingredients/carne_bovina_2.png?itok=gpvLFrkQ' WHERE Name = 'Gran Crispy McBacon'
+
+UPDATE PRODUCTS SET Img3 = 'https://www.mcdonalds.it/sites/default/files/styles/compressed/public/ingredients/Crispy_sauce.png?itok=4R8Z78vY' WHERE Name = 'Gran Crispy McBacon'
+
+UPDATE PRODUCTS SET Img2 = 'https://www.mcdonalds.it/sites/default/files/styles/compressed/public/ingredients/pane_bigmac_0.png?itok=py22MTj_' WHERE Name = 'BigMac'
+
+UPDATE PRODUCTS SET Img3 = 'https://www.mcdonalds.it/sites/default/files/styles/compressed/public/ingredients/salsa_bigmac_0.png?itok=T7PRG55d' WHERE Name = 'BigMac'
+
+
+UPDATE PRODUCTS SET Img2 = 'https://png.pngtree.com/png-clipart/20240323/original/pngtree-sausage-grill-food-png-image_14659193.png' WHERE Name = 'Salsiccia e Friarielli'
+
+UPDATE PRODUCTS SET Img3 = 'https://png.pngtree.com/png-clipart/20240308/original/pngtree-italian-burrata-mozzarella-cheese-png-image_14542568.png' WHERE Name = 'Salsiccia e Friarielli'
+
+
+UPDATE PRODUCTS SET Img2 = 'https://png.pngtree.com/png-clipart/20241006/original/pngtree-mozzarella-cheese-png-image_16218898.png' WHERE Name = 'Bufalina'
+
+UPDATE PRODUCTS SET Img3 = 'https://png.pngtree.com/png-clipart/20210530/original/pngtree-tomato-food-gourmet-vegetables-png-image_6370285.jpg' WHERE Name = 'Bufalina'
+
+
+UPDATE PRODUCTS SET Img2 = 'https://png.pngtree.com/png-clipart/20241108/original/pngtree-greek-tzatziki-yogurt-dip-and-pita-bread-lunch-garlic-gourmet-photo-png-image_16750411.png' WHERE Name = 'Menu Kebab classico'
+
+UPDATE PRODUCTS SET Img3 = 'https://png.pngtree.com/png-clipart/20210309/original/pngtree-fresh-vegetables-green-lettuce-png-image_5801313.jpg' WHERE Name = 'Menu Kebab classico'
+
+
+UPDATE PRODUCTS SET Img2 = 'https://png.pngtree.com/png-clipart/20240617/original/pngtree-gorgeous-black-truffle-delicacy-wooden-luxury-photo-png-image_15350506.png' WHERE Name = 'Truffle Kebab'
+
+UPDATE PRODUCTS SET Img3 = 'https://png.pngtree.com/png-clipart/20210530/original/pngtree-onion-natural-vegetable-cuisine-png-image_6343697.jpg' WHERE Name = 'Truffle Kebab'
+
+
+UPDATE PRODUCTS SET Img2 = 'https://png.pngtree.com/png-clipart/20240418/original/pngtree-fresh-prawns-ingredient-for-cooking-png-image_14886065.png' WHERE Name = 'Ebi Tempura Temaki'
+
+UPDATE PRODUCTS SET Img3 = 'https://png.pngtree.com/png-clipart/20210620/original/pngtree-rice-bowl-container-rice-png-image_6446296.jpg' WHERE Name = 'Ebi Tempura Temaki'
+
+
+UPDATE PRODUCTS SET Img2 = 'https://png.pngtree.com/png-clipart/20240323/original/pngtree-salmon-fresh-seafood-png-image_14660691.png' WHERE Name = 'Rose Sake Nigiri'
+
+UPDATE PRODUCTS SET Img3 = 'https://png.pngtree.com/png-clipart/20210620/original/pngtree-rice-bowl-container-rice-png-image_6446296.jpg' WHERE Name = 'Rose Sake Nigiri'
+
+
+UPDATE PRODUCTS SET Img2 = 'https://png.pngtree.com/png-clipart/20250118/original/pngtree-pasta-with-tomatoes-png-image_6830333.png' WHERE Name = 'Amatriciana'
+
+UPDATE PRODUCTS SET Img3 = 'https://png.pngtree.com/png-clipart/20240306/original/pngtree-tomatoes-in-a-basket-generative-ai-png-image_14518430.png' WHERE Name = 'Amatriciana'
+
+
+UPDATE PRODUCTS SET Img2 = 'https://png.pngtree.com/png-clipart/20210530/original/pngtree-eggs-photography-egg-shells-png-image_6343652.jpg' WHERE Name = 'Carbonara'
+
+UPDATE PRODUCTS SET Img3 = 'https://png.pngtree.com/png-clipart/20240523/original/pngtree-mezzi-rigatoni-pasta-in-a-jar-mezzi-rigatoni-cooking-above-photo-png-image_15162337.png' WHERE Name = 'Carbonara'
+
+
+UPDATE PRODUCTS SET Img2 = 'https://png.pngtree.com/png-clipart/20230504/original/pngtree-chocolate-powder-desserts-png-image_9136879.png' WHERE Name = 'Tortino al cioccolato'
+
+UPDATE PRODUCTS SET Img3 = 'https://png.pngtree.com/png-clipart/20240314/original/pngtree-fresh-custard-isolated-png-png-image_14589676.png' WHERE Name = 'Tortino al cioccolato'
+
+
+UPDATE PRODUCTS SET Img2 = 'https://png.pngtree.com/png-clipart/20240612/original/pngtree-chocolate-and-cocoa-powder-png-image_15311306.png' WHERE Name = 'Tiramisù'
+
+UPDATE PRODUCTS SET Img3 = 'https://png.pngtree.com/png-clipart/20240418/original/pngtree-mascarpone-cheese-on-wooden-table-homemade-soft-cream-png-image_14883181.png' WHERE Name = 'Tiramisù'
