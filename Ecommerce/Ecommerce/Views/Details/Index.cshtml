@@ -45,5 +45,27 @@
 		<div class="col-1"></div>
 	</div>
 </div>
-</div>
 
+@if ((bool)TempData["Toast"] == true)
+{
+	<div id="toastFikissimo" class="position-fixed p-3 animate__animated animate__fadeInRight" style="z-index: 5;">
+			<div class="toast-header justify-content-between">
+				<strong class="mr-auto">Mordi e Fuggi</strong>
+				<small>just now</small>
+			</div>
+			<div class="toast-body">
+				@Model.Name aggiunto al carrello!
+			</div>
+	</div>
+}
+
+@section Scripts {
+	<script>
+		const toast = document.getElementById('toastFikissimo');
+		window.addEventListener('load', () => {
+			setTimeout(() => {
+				toast.classList.add('animate__fadeOutRight');
+			}, 4000);
+		});
+	</script>
+}
