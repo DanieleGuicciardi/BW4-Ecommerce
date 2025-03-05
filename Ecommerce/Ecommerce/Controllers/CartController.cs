@@ -62,20 +62,50 @@ namespace Ecommerce.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(Guid cartId)
+        public async Task<IActionResult> Delete(Guid cartId, int quantity)
         {
+            if (quantity <= 0) quantity = 1;
+
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "DELETE FROM CART WHERE Id = @CartId";
-
-                await using (SqlCommand command = new SqlCommand(query, connection))
+                string checkQuery = "SELECT Quantity FROM CART WHERE Id = @CartId";
+                await using (SqlCommand checkCommand = new SqlCommand(checkQuery, connection))
                 {
-                    command.Parameters.AddWithValue("@CartId", cartId);
-                    await command.ExecuteNonQueryAsync();
+                    checkCommand.Parameters.AddWithValue("@CartId", cartId);
+                    var existingQuantity = await checkCommand.ExecuteScalarAsync();
+
+                    if (existingQuantity != null && existingQuantity != DBNull.Value)
+                    {
+                        int currentQuantity = Convert.ToInt32(existingQuantity);
+
+                        if (currentQuantity > quantity)
+                        {
+                            string updateQuery = "UPDATE CART SET Quantity = Quantity - @Quantity WHERE Id = @CartId";
+
+                            await using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
+                            {
+                                updateCommand.Parameters.AddWithValue("@Quantity", quantity);
+                                updateCommand.Parameters.AddWithValue("@CartId", cartId);
+                                await updateCommand.ExecuteNonQueryAsync();
+                            }
+                        }
+                        else
+                        {
+                            string deleteQuery = "DELETE FROM CART WHERE Id = @CartId";
+
+                            await using (SqlCommand deleteCommand = new SqlCommand(deleteQuery, connection))
+                            {
+                                deleteCommand.Parameters.AddWithValue("@CartId", cartId);
+                                await deleteCommand.ExecuteNonQueryAsync();
+                            }
+                        }
+                    }
                 }
             }
+
             return RedirectToAction("Index");
         }
+
     }
 }
