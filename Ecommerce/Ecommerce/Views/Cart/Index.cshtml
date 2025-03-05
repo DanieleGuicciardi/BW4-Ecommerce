@@ -4,13 +4,14 @@
     ViewData["Title"] = "Carrello";
 }
 
-<h2>Il tuo carrello</h2>
+<div class="container-fluid my-5 py-3">
+    <h1 class="text-center mb-4 pt-4">Il tuo carrello</h1>
 
 @if (Model.CartItems.Any())
 {
-    <table class="table">
+        <table class="table table-bordered table-hover">
         <thead>
-            <tr>
+            <tr class="text-center">
                 <th>Immagine</th>
                 <th>Nome</th>
                 <th>Quantità</th>
@@ -22,16 +23,16 @@
         <tbody>
             @foreach (var item in Model.CartItems)
             {
-                <tr>
+                <tr class="text-center centroTab">
                     <td><img src="@item.Product.Img" alt="@item.Product.Name" width="50" /></td>
                     <td>@item.Product.Name</td>
                     <td>@item.Quantity</td>
                     <td>@item.Product.Price.ToString("F2") €</td>
-                    <td>@(item.Product.Price * item.Quantity).ToString("F2") €</td>
+                        <td>@((@item.Product.Price * @item.Quantity).ToString("F2")) €</td>
                     <td>
                         <form method="post" asp-controller="Cart" asp-action="Delete">
                             <input type="hidden" name="cartId" value="@item.CartId" />
-                            <button type="submit" class="btn btn-danger">Rimuovi</button>
+                            <button type="submit" class="btn btn-danger btn-sm">Rimuovi</button>
                         </form>
                     </td>
                 </tr>
@@ -47,3 +48,4 @@ else
 {
     <p>Il carrello è vuoto.</p>
 }
+</div>

@@ -18,12 +18,12 @@ namespace Ecommerce.Controllers
         [HttpGet("details/{id:guid}")]
         public async Task<IActionResult> Index(Guid id)
         {
-            Product product = null;
+            Product product = new Product();
 
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "SELECT Id, Name, Price, Description, Img FROM PRODUCTS WHERE Id = @Id";
+                string query = "SELECT Id, Name, Price, Description, Img, Img2, Img3 FROM PRODUCTS WHERE Id = @Id";
 
                 await using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -31,24 +31,36 @@ namespace Ecommerce.Controllers
 
                     await using (SqlDataReader reader = await command.ExecuteReaderAsync())
                     {
-                        if (await reader.ReadAsync())
+
+                        while (await reader.ReadAsync())
                         {
+                            string img2;
+                            string img3;
+                            bool prova = await reader.IsDBNullAsync(0);
+                            if (!reader.IsDBNull(5) && !reader.IsDBNull(6))
+                            {
+                                img2 = reader.GetString(5);
+                                img3 = reader.GetString(6);
+                            }
+                            else
+                            {
+                                img2 = null;
+                                img3 = null;
+                            }
+
                             product = new Product
                             {
                                 Id = reader.GetGuid(0),
                                 Name = reader.GetString(1),
                                 Price = reader.GetDecimal(2),
                                 Description = reader.GetString(3),
-                                Img = reader.GetString(4)
+                                Img = reader.GetString(4),
+                                Img2 = img2,
+                                Img3 = img3
                             };
                         }
                     }
                 }
-            }
-
-            if (product == null)
-            {
-                return NotFound();
             }
 
             return View(product);

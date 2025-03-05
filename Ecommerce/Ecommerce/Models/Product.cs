@@ -11,6 +11,8 @@ namespace Ecommerce.Models
         public string DescriptionShort { get; set; }
         public int Category { get; set; }
         public string Img { get; set; }
+        public string Img2 { get; set; }
+        public string Img3 { get; set; }
 
     }
 }

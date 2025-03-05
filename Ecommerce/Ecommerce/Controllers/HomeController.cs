@@ -68,7 +68,7 @@ namespace Ecommerce.Controllers
             await using (SqlConnection connection = new(_connectionString))
             {
                 await connection.OpenAsync();
-                var query = "SELECT P.Id, P.Name, P.Price, P.Description, P.DescriptionShort, P.Img, C.Id FROM PRODUCTS P INNER JOIN CATEGORIES C ON P.IdCategory = C.Id WHERE P.IdCategory = @Id";
+                var query = "SELECT P.Id, P.Name, P.Price, P.Description, P.DescriptionShort, P.Img, P.Img2, P.Img3, C.Id FROM PRODUCTS P INNER JOIN CATEGORIES C ON P.IdCategory = C.Id WHERE P.IdCategory = @Id";
 
                 await using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -78,6 +78,17 @@ namespace Ecommerce.Controllers
                     {
                         while (await reader.ReadAsync())
                         {
+                            string img2;
+                            string img3;
+                            if (!reader.IsDBNull(6) && !reader.IsDBNull(7))
+                            {
+                                img2 = reader.GetString(6);
+                                img3 = reader.GetString(7);
+                            } else
+                            {
+                                img2 = null;
+                                img3 = null;
+                            }
 
                             printProducts.Products.Add(
                                 new Product()
@@ -88,14 +99,17 @@ namespace Ecommerce.Controllers
                                     Description = reader.GetString(3),
                                     DescriptionShort = reader.GetString(4),
                                     Img = reader.GetString(5),
-                                    Category = reader.GetInt32(6),
+                                    Img2 = img2,
+                                    Img3 = img3,
+                                    Category = reader.GetInt32(8),
 
                                 }
                             );
-                        }
+
                     }
                 }
             }
+        }
 
             return View(printProducts);
         }
@@ -104,6 +118,6 @@ namespace Ecommerce.Controllers
         {
             return View();
         }
-        
+
     }
 }

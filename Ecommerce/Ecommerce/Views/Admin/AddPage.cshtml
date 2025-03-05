@@ -1,65 +1,73 @@
 ﻿@model AddProductModel
 @{
-    ViewData["Title"] = "Add Page";
+	ViewData["Title"] = "Add Page";
 }
 <div class="container mt-5 pt-5">
-<form method="post" asp-controller="Admin" asp-action="AddProduct">
-	<div>
-		<label for="name" asp-for="Name" class="form-label"></label>
-		<input id="name" asp-for="Name" class="form-control" />
-		<span class="text-danger" asp-validation-for="Name"></span>
-	</div>
+	@if (TempData["Error"] != null)
+	{
+		<span class="text-danger">@TempData["Error"]</span>
+	}
+	<form method="post" asp-controller="Admin" asp-action="AddProduct">
+		<div>
+			<label for="name" asp-for="Name" class="form-label"></label>
+			<input id="name" asp-for="Name" class="form-control" />
+			<span class="text-danger" asp-validation-for="Name"></span>
+		</div>
 
-	<div>
-		<label for="price" asp-for="Price" class="form-label"></label>
-		<input id="price" asp-for="Price" class="form-control" />
-		<span class="text-danger" asp-validation-for="Price"></span>
-	</div>
+		<div>
+			<label for="price" asp-for="Price" class="form-label"></label>
+			<input type="number" id="price" asp-for="Price" class="form-control" />
+			<span class="text-danger" asp-validation-for="Price"></span>
+		</div>
 
-	<div>
-		<label for="description" asp-for="Description" class="form-label"></label>
-		<textarea id="description" asp-for="Description" class="form-control"></textarea>
-		<span class="text-danger" asp-validation-for="Description"></span>
-	</div>
+		<div>
+			<label for="description" asp-for="Description" class="form-label"></label>
+			<textarea id="description" asp-for="Description" class="form-control"></textarea>
+			<span class="text-danger" asp-validation-for="Description"></span>
+		</div>
 
-	<div>
-		<label for="descriptionShort" asp-for="DescriptionShort" class="form-label"></label>
-		<textarea id="descriptionShort" asp-for="DescriptionShort" class="form-control"></textarea>
-		<span class="text-danger" asp-validation-for="DescriptionShort"></span>
-	</div>
+		<div>
+			<label for="descriptionShort" asp-for="DescriptionShort" class="form-label"></label>
+			<textarea id="descriptionShort" asp-for="DescriptionShort" class="form-control"></textarea>
+			<span class="text-danger" asp-validation-for="DescriptionShort"></span>
+		</div>
 
-	<div>
-		<label for="img" asp-for="Img" class="form-label"></label>
-		<input id="img" asp-for="Img" class="form-control" />
-		<span class="text-danger" asp-validation-for="Img"></span>
-	</div>
+		<div>
+			<label for="img" asp-for="Img" class="form-label"></label>
+			<input id="img" asp-for="Img" class="form-control" />
+			<span class="text-danger" asp-validation-for="Img"></span>
+		</div>
 
-	<div>
-		<label for="img2" asp-for="Img2" class="form-label"></label>
-		<input id="img2" asp-for="Img2" class="form-control" />
-		<span class="text-danger" asp-validation-for="Img2"></span>
-	</div>
+		<div>
+			<label for="img2" asp-for="Img2" class="form-label"></label>
+			<input id="img2" asp-for="Img2" class="form-control" />
+			<span class="text-danger" asp-validation-for="Img2"></span>
+		</div>
 
-	<div>
-		<label for="img3" asp-for="Img3" class="form-label"></label>
-		<input id="img3" asp-for="Img3" class="form-control" />
-		<span class="text-danger" asp-validation-for="Img3"></span>
-	</div>
+		<div>
+			<label for="img3" asp-for="Img3" class="form-label"></label>
+			<input id="img3" asp-for="Img3" class="form-control" />
+			<span class="text-danger" asp-validation-for="Img3"></span>
+		</div>
 
-	<div>
-		<label for="idCategory" asp-for="IdCategory" class="form-label"></label>
-		<select asp-for="IdCategory">
-			@foreach (var category in Model.Categories)
-			{
-				<option value="@category.Id">@category.Name</option>
-			}
-		</select>
-		<span class="text-danger" asp-validation-for="IdCategory"></span>
-	</div>
+		<div>
+			<label for="idCategory" asp-for="IdCategory" class="form-label"></label>
+			<select asp-for="IdCategory">
+				@foreach (var category in Model.Categories!)
+				{
+					<option value="@category.Id">@category.Name</option>
+				}
+			</select>
+			<span class="text-danger" asp-validation-for="IdCategory"></span>
+		</div>
 
-	<div class="mt-2">
-		<button class="btn btn-success" type="submit">Save</button>
-		<button class="btn btn-warning" type="reset">Reset</button>
-	</div>
-</form>
+		<div class="mt-2">
+			<button class="btn btn-success" type="submit">Save</button>
+			<button class="btn btn-warning" type="reset">Reset</button>
+		</div>
+	</form>
 </div>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

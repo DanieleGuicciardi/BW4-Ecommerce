@@ -44,7 +44,7 @@ namespace Ecommerce.Controllers
                                 {
                                     Id = reader.GetGuid(0),
                                     Name = reader.GetString(1),
-                                    Price = reader.GetSqlMoney(2),
+                                    Price = reader.GetDecimal(2),
                                     DescriptionShort = reader.GetString(3),
                                     IdCategory = reader.GetInt32(4),
                                     CategoryName = reader.GetString(5),
@@ -137,6 +137,12 @@ namespace Ecommerce.Controllers
         [HttpPost("Admin/AdminPage/EditPage/SaveEdit/{id:guid}")]
         public async Task<IActionResult> SaveEdit(Guid id, EditProduct editProduct)
         {
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "Errore nel modello del form";
+                return RedirectToAction("EditPage", new { id });
+            }
+
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
@@ -229,7 +235,7 @@ namespace Ecommerce.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["Error"] = "Try again!";
+                TempData["Error"] = "Errore nel modello del form";
                 return RedirectToAction("AddPage");
             }
 
