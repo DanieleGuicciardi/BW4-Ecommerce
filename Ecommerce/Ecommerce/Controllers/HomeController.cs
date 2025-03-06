@@ -75,11 +75,11 @@ namespace Ecommerce.Controllers
             }
             if (loggedCount >= 1)
             {
-                return TempData["IsLogged"] = true;
+                return ViewData["IsLogged"] = true;
             }
             else
             {
-                return TempData["IsLogged"] = false;
+                return ViewData["IsLogged"] = false;
             }
         }
 

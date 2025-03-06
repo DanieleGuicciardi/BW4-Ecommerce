@@ -643,3 +643,105 @@ body {
 .cartCard {
     background-color: rgba(255, 255, 255, 0.3) !important;
 }
+
+/* LOGIN */
+
+.content {
+    width: 400px;
+    padding: 40px 30px;
+    background: #8CDCD4;
+    border-radius: 10px;
+    box-shadow: -3px -3px 7px #ffffff73, 2px 2px 5px rgba(94,104,121,0.288);
+}
+
+    .content .text {
+        font-size: 33px;
+        font-weight: 600;
+        margin-bottom: 35px;
+        color: black;
+    }
+
+.field {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    position: relative;
+}
+
+    .field2, .field3 {
+        margin-top: 20px;
+    }
+
+    .field .userInput {
+        height: 100%;
+        width: 100%;
+        padding-left: 45px;
+        outline: none;
+        border: none;
+        font-size: 18px;
+        background: #dde1e7;
+        color: black;
+        border-radius: 25px;
+        box-shadow: inset 2px 2px 5px #BABECC, inset -5px -5px 10px #ffffff73;
+    }
+
+        .field .userInput:focus {
+            box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #ffffff73;
+        }
+
+    .field .span {
+        position: absolute;
+        color: black;
+        width: 50px;
+        line-height: 55px;
+    }
+
+    .field .label {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 45px;
+        pointer-events: none;
+        color: black;
+    }
+
+    .field .userInput:valid ~ label {
+        opacity: 0;
+    }
+
+.btnSignIn {
+    margin: 15px 0;
+    width: 100%;
+    height: 50px;
+    font-size: 18px;
+    line-height: 50px;
+    font-weight: 600;
+    background: #4FA8B0;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: black;
+    box-shadow: 2px 2px 5px #BABECC, -5px -5px 10px #ffffff73;
+}
+
+    .btnSignIn:focus {
+        color: black;
+        box-shadow: inset 2px 2px 5px #BABECC, inset -5px -5px 10px #ffffff73;
+    }
+
+.sign-up {
+    margin: 10px 0;
+    color: black;
+    font-size: 16px;
+}
+
+    .sign-up a {
+        font-weight: bold;
+        color: #4FA8B0;
+        text-decoration: none;
+    }
+
+        .sign-up a:hover {
+            text-decoration: underline;
+        }

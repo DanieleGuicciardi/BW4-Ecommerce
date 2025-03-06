@@ -43,6 +43,7 @@ namespace Ecommerce.Controllers
                     if (righeInteressate == 0)
                     {
                         TempData["ErrorLogin"] = "Attenzione! Username o Password errati";
+                        return RedirectToAction("LoginPage");
                     }
                 }
             }
@@ -60,7 +61,7 @@ namespace Ecommerce.Controllers
                     await command.ExecuteNonQueryAsync();
                 }
             }
-            TempData["IsLogged"] = false;
+            ViewData["IsLogged"] = false;
             return RedirectToAction("LoginPage");
         }
 

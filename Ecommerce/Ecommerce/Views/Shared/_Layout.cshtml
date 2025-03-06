@@ -29,37 +29,17 @@
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-					@*  <ul class="navbar-nav flex-grow-1 justify-content-end align-items-center">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AdminPage">AdminPage</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-dark position-relative" asp-area="" asp-controller="Cart" asp-action="Index">
-                                <i class="bi bi-cart2 fs-3">
-
-                                </i>
-                                <span class="position-absolute translate-middle badge rounded-pill bg-danger" style="top: 25%; left:78%; font-size: 10px;">
-                                    @quantity
-                                    <span class="visually-hidden">unread messages</span>
-                                </span>
-                            </a>
-
-                        </li>
-                    </ul> *@
 					<div class="container navbar-nav flex-grow-1 justify-content-end align-items-center">
 						<div class="tabs">
 							<input type="radio" id="radio-2" name="tabs">
 							<label class="tab" for="radio-2"><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a></label>
 							@{
-								if (TempData["IsLogged"] != null && (bool)TempData["IsLogged"] == false)
+								if (ViewData["IsLogged"] != null && (bool)ViewData["IsLogged"] == false)
 								{
 									<input type="radio" id="radio-3" name="tabs">
 									<label class="tab" for="radio-3"><a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="LoginPage">Login</a></label>
 								}
-								else if (TempData["IsLogged"] != null && (bool)TempData["IsLogged"] == true)
+								else if (ViewData["IsLogged"] != null && (bool)ViewData["IsLogged"] == true)
 								{
 									<input type="radio" id="radio-3" name="tabs">
 									<label class="tab" for="radio-3"><a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Logout">Logout</a></label>
@@ -71,7 +51,12 @@
 							<label class="tab" for="radio-1">
 								<a class="nav-link text-dark position-relative" asp-area="" asp-controller="Cart" asp-action="Index">
 									<i class="bi bi-cart2 fs-3"></i>
-									<span class="notification">@quantity</span>
+									@{
+										if (ViewData["IsLogged"] != null)
+										{
+											<span class="notification">@quantity</span>
+										}
+									}
 								</a>
 							</label>
 							<span class="glider"></span>
