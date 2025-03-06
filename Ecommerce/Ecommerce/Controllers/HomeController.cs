@@ -148,5 +148,115 @@ namespace Ecommerce.Controllers
             return View(printProducts);
         }
 
+        [HttpGet("home/searchcategories")]  //search categorie
+        public async Task<IActionResult> SearchCategories(string query)
+        {
+            var categoryList = new CategoryViewModel()
+            {
+                Categories = new List<Category>()
+            };
+
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                ViewBag.Message = "Non puoi cercare il nulla!";
+                return View("Index", categoryList);
+            }
+
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                string sqlQuery = "SELECT * FROM CATEGORIES WHERE Name LIKE @Query";
+
+                await using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Query", "%" + query + "%");
+
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            categoryList.Categories.Add(
+                                new Category()
+                                {
+                                    Id = reader.GetInt32(0),
+                                    Name = reader.GetString(1),
+                                    Img = reader.GetString(2),
+                                }
+                            );
+                        }
+                    }
+                }
+            }
+
+            if (categoryList.Categories.Count == 0)
+            {
+                ViewBag.Message = "Nessuna categoria presente con quel nome!";
+            }
+
+            return View("Index", categoryList);
+        }
+
+        [HttpGet("home/searchproducts")]  //search prodotti
+        public async Task<IActionResult> SearchProducts(string query)
+        {
+            var productList = new ProductsViewModel()
+            {
+                Products = new List<Product>()
+            };
+
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                ViewBag.Message = "Non puoi cercare il nulla!";
+                return View("PrintProducts", productList);
+            }
+
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                string sqlQuery = "SELECT Id, Name, Price, Description, DescriptionShort, Img, Img2, Img3, IdCategory FROM PRODUCTS WHERE Name LIKE @Query";
+
+                await using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Query", "%" + query + "%");
+
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            string img2 = reader.IsDBNull(6) ? null : reader.GetString(6);
+                            string img3 = reader.IsDBNull(7) ? null : reader.GetString(7);
+
+                            productList.Products.Add(
+                                new Product()
+                                {
+                                    Id = reader.GetGuid(0),
+                                    Name = reader.GetString(1),
+                                    Price = reader.GetDecimal(2),
+                                    Description = reader.GetString(3),
+                                    DescriptionShort = reader.GetString(4),
+                                    Img = reader.GetString(5),
+                                    Img2 = img2,
+                                    Img3 = img3,
+                                    Category = reader.GetInt32(8),
+                                }
+                            );
+                        }
+                    }
+                }
+            }
+
+            if (productList.Products.Count == 0)
+            {
+                ViewBag.Message = "Prodotto non trovato.";
+            }
+
+            return View("PrintProducts", productList);
+        }
+
+
+
+
     }
 }
