@@ -63,5 +63,47 @@ namespace Ecommerce.Controllers
             TempData["IsLogged"] = false;
             return RedirectToAction("LoginPage");
         }
+
+        public IActionResult RegisterPage()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> RegisterSave(RegisterModel registerModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "Errore nel modello del form";
+                return RedirectToAction("RegisterPage");
+            }
+            if (registerModel.Password != registerModel.ConfirmPassword)
+            {
+                TempData["ErrorPassword"] = "Le password non coincidono";
+                return RedirectToAction("RegisterPage");
+            }
+            try
+            {
+                await using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    await connection.OpenAsync();
+                    string query = "INSERT INTO LOGIN VALUES (@Id, @Username, @Password, 0)";
+
+                    await using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", Guid.NewGuid());
+                        command.Parameters.AddWithValue("@Username", registerModel.Username);
+                        command.Parameters.AddWithValue("@Password", registerModel.Password);
+                        int righeInteressate = await command.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                TempData["UniqueUsername"] = "Username già in uso!";
+                return RedirectToAction("RegisterPage");
+            }
+            
+            return RedirectToAction("LoginPage");
+        }
     }
 }

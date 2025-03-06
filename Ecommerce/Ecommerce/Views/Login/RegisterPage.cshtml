@@ -1,19 +1,24 @@
-﻿@model LoginModel
+﻿@model RegisterModel;
 @{
-	ViewData["Title"] = "Login Page";
+	ViewData["Title"] = "Registration Page";
 }
-
 <div class="container mt-5 pt-5">
+	<h1>Crea un Account</h1>
+
 	@if (TempData["Error"] != null)
 	{
 		<span class="text-danger">@TempData["Error"]</span>
 	}
-	@if (TempData["ErrorLogin"] != null)
+	@if (TempData["UniqueUsername"] != null)
 	{
-		<span class="text-danger">@TempData["ErrorLogin"]</span>
+		<span class="text-danger">@TempData["UniqueUsername"]</span>
+	}
+	@if (TempData["ErrorPassword"] != null)
+	{
+		<span class="text-danger">@TempData["ErrorPassword"]</span>
 	}
 
-	<form method="post" asp-controller="Login" asp-action="Login">
+	<form method="post" asp-controller="Login" asp-action="RegisterSave">
 		<div>
 			<label for="username" asp-for="Username" class="form-label"></label>
 			<input id="username" asp-for="Username" class="form-control" />
@@ -22,8 +27,14 @@
 
 		<div>
 			<label for="password" asp-for="Password" class="form-label"></label>
-			<input type="password" id="password" asp-for="Password" class="form-control" />
+			<input id="password" asp-for="Password" class="form-control" />
 			<span class="text-danger" asp-validation-for="Password"></span>
+		</div>
+
+		<div>
+			<label for="confirmPassword" asp-for="ConfirmPassword" class="form-label"></label>
+			<input id="confirmPassword" asp-for="ConfirmPassword" class="form-control" />
+			<span class="text-danger" asp-validation-for="ConfirmPassword"></span>
 		</div>
 
 		<div class="mt-2">
@@ -31,12 +42,6 @@
 			<button class="btn btn-warning" type="reset">Reset</button>
 		</div>
 	</form>
-
-	<div>
-		<p>Non sei ancora registrato?</p>
-		<a asp-area="" asp-controller="Login" asp-action="RegisterPage">Registrati</a>
-
-	</div>
 </div>
 
 @section Scripts {
