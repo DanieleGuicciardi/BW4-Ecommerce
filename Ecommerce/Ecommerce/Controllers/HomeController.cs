@@ -4,6 +4,7 @@ using Microsoft.Data.SqlClient;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System.Reflection.PortableExecutable;
 
 namespace Ecommerce.Controllers
 {
@@ -53,8 +54,40 @@ namespace Ecommerce.Controllers
             }
             return TempData["TotQuantita"] = quantita;
         }
+
+        public async Task<Object> IsUserLogged()
+        {
+            int loggedCount = new();
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query = "SELECT COUNT(IsLogged) FROM LOGIN WHERE IsLogged=1";
+
+                await using(SqlCommand command = new SqlCommand(query, connection))
+                {
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            loggedCount = reader.GetInt32(0);
+                        }
+                    }
+                }
+            }
+            if (loggedCount >= 1)
+            {
+                return TempData["IsLogged"] = true;
+            }
+            else
+            {
+                return TempData["IsLogged"] = false;
+            }
+        }
+
+
         public async Task<IActionResult> Index()
         {
+            await IsUserLogged();
             var categoryList = new CategoryViewModel()
             {
                 Categories = new List<Category>()
@@ -92,6 +125,7 @@ namespace Ecommerce.Controllers
         [HttpGet("home/printproducts/{id:int}")]
         public async Task<IActionResult> PrintProducts(Int32 id)
         {
+            await IsUserLogged();
             var printProducts = new ProductsViewModel()
             {
                 Products = new List<Product>()

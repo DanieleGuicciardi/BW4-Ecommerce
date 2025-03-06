@@ -52,9 +52,39 @@ namespace Ecommerce.Controllers
             }
             return TempData["TotQuantita"] = quantita;
         }
+        public async Task<Object> IsUserLogged()
+        {
+            int loggedCount = new();
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query = "SELECT COUNT(IsLogged) FROM LOGIN WHERE IsLogged=1";
+
+                await using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            loggedCount = reader.GetInt32(0);
+                        }
+                    }
+                }
+            }
+            if (loggedCount >= 1)
+            {
+                return TempData["IsLogged"] = true;
+            }
+            else
+            {
+                return TempData["IsLogged"] = false;
+            }
+        }
 
         public async Task<IActionResult> AdminPage()
         {
+            await IsUserLogged();
+
             var productsList = new AdminProductsViewModel()
             {
                 AdminProducts = new List<AdminProduct>()
@@ -137,6 +167,8 @@ namespace Ecommerce.Controllers
         [HttpGet("Admin/AdminPage/EditPage/{id:guid}")]
         public async Task<IActionResult> EditPage(Guid id)
         {
+            await IsUserLogged();
+
             var editProduct = new EditProduct();
             var categoryList = new CategoryViewModel()
             {
@@ -267,6 +299,8 @@ namespace Ecommerce.Controllers
         [HttpGet("Admin/AdminPage/EditCategoryPage/{id:int}")]
         public async Task<IActionResult> EditCategoryPage(int id)
         {
+            await IsUserLogged();
+
             var editCategory = new Category();
 
             await using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -323,6 +357,8 @@ namespace Ecommerce.Controllers
 
         public async Task<IActionResult> AddPage()
         {
+            await IsUserLogged();
+
             var model = new AddProductModel()
             {
                 Categories = await GetCategories()
@@ -332,8 +368,9 @@ namespace Ecommerce.Controllers
             return View(model);
         }
 
-        public IActionResult AddCategoryPage()
+        public async Task<IActionResult> AddCategoryPage()
         {
+            await IsUserLogged();
             return View();
         }
 

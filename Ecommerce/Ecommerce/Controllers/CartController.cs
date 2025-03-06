@@ -52,9 +52,38 @@ namespace Ecommerce.Controllers
             return TempData["TotQuantita"] = quantita;
         }
 
+        public async Task<Object> IsUserLogged()
+        {
+            int loggedCount = new();
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query = "SELECT COUNT(IsLogged) FROM LOGIN WHERE IsLogged=1";
+
+                await using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            loggedCount = reader.GetInt32(0);
+                        }
+                    }
+                }
+            }
+            if (loggedCount >= 1)
+            {
+                return TempData["IsLogged"] = true;
+            }
+            else
+            {
+                return TempData["IsLogged"] = false;
+            }
+        }
 
         public async Task<IActionResult> Index()
         {
+            await IsUserLogged();
             var cartViewModel = new CartViewModel()
             {
                 CartItems = new List<CartItem>()
