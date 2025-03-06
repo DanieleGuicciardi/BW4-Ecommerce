@@ -59,6 +59,10 @@
 						</button>
 					</div>
 				</div>
+				@if (TempData["Login"] != null)
+				{
+					<span class="text-danger">@TempData["Login"]</span>
+				}
 				<form method="post" action="/details/add-to-cart/@Model.Id" class="d-flex align-items-center justify-content-center">
 					<label for="quantity" class="me-2">Quantità:</label>
 					<input type="number" id="quantity" name="quantity" class="form-control" value="1" min="1" required>
