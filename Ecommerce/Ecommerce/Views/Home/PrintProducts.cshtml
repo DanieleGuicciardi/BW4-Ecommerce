@@ -1,31 +1,44 @@
 ﻿@model ProductsViewModel
 
 @{
-    ViewData["Title"] = "Prodotti";
+	ViewData["Title"] = "Prodotti";
 }
 
 <div class="container my-5 py-3">
-	<h1 class="text-center mb-4 pt-4">Prodotti</h1>
+	<div class="row align-items-center">
+		<div class="text-end col-2 mb-4 pt-5">
+			<button class="button" onclick="window.history.back();">
+				<i class="bi bi-arrow-left svgIcon"></i>
+			</button>
+		</div>
+		<div class="col-8">
+			<h1 class="text-center mb-4 pt-5">Prodotti</h1>
+		</div>
+		<div class="col-2">
+		</div>
+		@foreach (var prodotto in Model.Products)
+		{
+			<div class="col-4 mb-2">
+				<a asp-controller="Details" asp-action="Index" asp-route-id="@prodotto.Id" class="me-4 text-decoration-none">
+					<div class="flip-card">
+						<div class="flip-card-inner">
+							<div class="flip-card-front" style="background-image: url('@prodotto.Img'); background-size:cover; background-position: center">
+							</div>
+							<div class="flip-card-back">
+								<h5 class="card-title text-center">@prodotto.Name</h5>
+								<p class="card-text text-center">€ @prodotto.Price.ToString("F2")</p>
+								<p class="card-text text-center descShort">@prodotto.DescriptionShort</p>
+								<div class="d-flex align-items-center justify-content-center">
 
-    <div class="row">
-        @foreach (var prodotto in Model.Products)
-        {
-            <div class="col-4 mb-2 ProductCard">
-                <a asp-controller="Details" asp-action="Index" asp-route-id="@prodotto.Id" class="me-4 text-black text-decoration-none">
-                    <div class="card rounded-3">
-                        <img src=@prodotto.Img class="img-fluid rounded-start rounded-end" alt="prodotto" />
-                        <div class="card-body d-flex flex-column justify-content-center">
-                            <h5 class="card-title text-center">@prodotto.Name</h5>
-                            <p class="card-text text-center">€ @prodotto.Price.ToString("F2")</p>
-                            <p class="card-text text-center descShort">@prodotto.DescriptionShort</p>
-                            <div class="d-flex align-items-center justify-content-end">
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
+									<i class="bi bi-info-circle text-primary">Info</i>
 
-        }
-    </div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a>
+			</div>
+		}
+
+	</div>
 </div>
-

@@ -21,6 +21,37 @@ namespace Ecommerce.Controllers
             _logger = logger;
         }
 
+        public async Task<Object> Banner()
+        {
+            int quantita = 0;
+
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query2 = @"SELECT SUM(Quantity) FROM CART";
+
+                await using (SqlCommand command = new SqlCommand(query2, connection))
+                {
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            if (!reader.IsDBNull(0))
+                            {
+                                quantita = reader.GetInt32(0);
+                            } else
+                            {
+                                quantita = 0;
+                            }
+
+
+                        }
+                    };
+                }
+            }
+            return TempData["TotQuantita"] = quantita;
+        }
+
         public async Task<IActionResult> AdminPage()
         {
             var productsList = new AdminProductsViewModel()
@@ -31,6 +62,9 @@ namespace Ecommerce.Controllers
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
+
+
+
                 string query = "SELECT PRODUCTS.Id, PRODUCTS.Name, Price, DescriptionShort, IdCategory, CATEGORIES.Name FROM PRODUCTS INNER JOIN CATEGORIES ON IdCategory = CATEGORIES.Id ORDER BY IdCategory;";
 
                 await using (SqlCommand command = new SqlCommand(query, connection))
@@ -54,6 +88,7 @@ namespace Ecommerce.Controllers
                     }
                 }
 
+                await Banner();
                 return View(productsList);
             }
         }
@@ -86,6 +121,7 @@ namespace Ecommerce.Controllers
                 }
             }
 
+            await Banner();
             return listaCategorie;
 
         }
@@ -130,7 +166,7 @@ namespace Ecommerce.Controllers
             }
 
             ViewBag.CategoryList = categoryList;
-
+            await Banner();
             return View(editProduct);
         }
 
@@ -217,6 +253,8 @@ namespace Ecommerce.Controllers
                 }
 
             }
+
+            await Banner();
             return RedirectToAction("AdminPage");
         }
 
@@ -227,6 +265,7 @@ namespace Ecommerce.Controllers
                 Categories = await GetCategories()
             };
 
+            await Banner();
             return View(model);
         }
 
@@ -314,6 +353,7 @@ namespace Ecommerce.Controllers
 
             }
 
+            await Banner();
             return RedirectToAction("AdminPage");
         }
 
@@ -333,6 +373,7 @@ namespace Ecommerce.Controllers
                 }
             }
 
+            await Banner();
             return RedirectToAction("AdminPage");
         }
     }

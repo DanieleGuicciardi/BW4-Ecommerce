@@ -21,6 +21,38 @@ namespace Ecommerce.Controllers
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
+        public async Task<Object> Banner()
+        {
+            int quantita = 0;
+
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query2 = @"SELECT SUM(Quantity) FROM CART";
+
+                await using (SqlCommand command = new SqlCommand(query2, connection))
+                {
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            if (!reader.IsDBNull(0))
+                            {
+                                quantita = reader.GetInt32(0);
+                            }
+                            else
+                            {
+                                quantita = 0;
+                            }
+
+                        }
+                    };
+                }
+            }
+            return TempData["TotQuantita"] = quantita;
+        }
+
+
         public async Task<IActionResult> Index()
         {
             var cartViewModel = new CartViewModel()
@@ -58,6 +90,7 @@ namespace Ecommerce.Controllers
                     }
                 }
             }
+            await Banner();
             return View(cartViewModel);
         }
 
@@ -103,7 +136,7 @@ namespace Ecommerce.Controllers
                     }
                 }
             }
-
+            await Banner();
             return RedirectToAction("Index");
         }
 
