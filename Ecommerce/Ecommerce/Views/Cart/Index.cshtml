@@ -86,13 +86,7 @@
 					</div>
 				</div>
 			</div>
-
-			@* 						</td>
-					</tr> *@
 		}
-		@* 			</tbody>
-		</table> *@
-
 		<div class="text-end">
 			<h4>Totale: @(Model.CartItems.Sum(item => item.Product.Price * item.Quantity).ToString("F2")) €</h4>
 		</div>

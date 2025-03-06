@@ -366,8 +366,8 @@ body {
 }
 
 #quantity {
-    width: 13%;
-    background-color: transparent;
+    width: 8% !important;
+    background-color: transparent !important;
     border-color: transparent;
     outline: none !important;
     box-shadow: none !important;
