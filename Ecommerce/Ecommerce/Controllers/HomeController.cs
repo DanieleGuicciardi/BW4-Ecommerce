@@ -1,6 +1,5 @@
 using Microsoft.Data.SqlClient;
 using System.Diagnostics;
-using Microsoft.Data.SqlClient;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;

@@ -282,18 +282,6 @@ body {
         margin: 0px;
     }
 
-.container input[id="radio-1"]:checked ~ .glider {
-    transform: translateX(0);
-}
-
-.container input[id="radio-2"]:checked ~ .glider {
-    transform: translateX(100%);
-}
-
-.container input[id="radio-3"]:checked ~ .glider {
-    transform: translateX(200%);
-}
-
 @media (max-width: 700px) {
 
     .tabs {
