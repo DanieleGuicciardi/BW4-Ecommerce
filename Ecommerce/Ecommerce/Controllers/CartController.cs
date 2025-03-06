@@ -64,7 +64,7 @@ namespace Ecommerce.Controllers
             {
                 await connection.OpenAsync();
                 string query = @"SELECT C.Id AS CartId, C.Quantity, P.Id AS ProductId, 
-                                 P.Name AS ProductName, P.Price, P.Img 
+                                 P.Name AS ProductName, P.Price, P.Img, P.DescriptionShort 
                                  FROM CART C 
                                  INNER JOIN PRODUCTS P ON C.IdProduct = P.Id";
 
@@ -83,7 +83,8 @@ namespace Ecommerce.Controllers
                                     Id = reader.GetGuid(2),
                                     Name = reader.GetString(3),
                                     Price = reader.GetDecimal(4),
-                                    Img = reader.GetString(5)
+                                    Img = reader.GetString(5),
+                                    DescriptionShort = reader.GetString(6)
                                 }
                             });
                         }
