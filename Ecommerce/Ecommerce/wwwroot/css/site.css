@@ -382,7 +382,7 @@ body {
     box-shadow: none !important;
 }
 
-.btn, .button:focus, .btn:focus {
+.btn, .button:focus, .btn:focus, .form-control:focus {
     outline: none !important;
 }
 
@@ -589,4 +589,20 @@ body {
 .btnDelete:hover .bin-top {
     transition-duration: 0.5s;
     transform: rotate(160deg);
+}
+
+/* INPUT */
+
+.formGroup{
+    margin: 2em 0 2em 0 !important;
+}
+
+.form-control {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+    border: 2px solid rgb(255, 69, 69, 0.5);
+}
+
+.form-label {
+    margin-bottom: 0 !important;
+    color: black !important;
 }

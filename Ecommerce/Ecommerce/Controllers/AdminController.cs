@@ -261,6 +261,7 @@ namespace Ecommerce.Controllers
                 }
 
             }
+            await Banner();
             return RedirectToAction("AdminPage");
         }
 
@@ -289,6 +290,7 @@ namespace Ecommerce.Controllers
                     }
                 }
             }
+            await Banner();
             return View(editCategory);
         }
 
@@ -332,8 +334,9 @@ namespace Ecommerce.Controllers
             return View(model);
         }
 
-        public IActionResult AddCategoryPage()
+        public async Task <IActionResult> AddCategoryPage()
         {
+            await Banner();
             return View();
         }
 
@@ -360,6 +363,7 @@ namespace Ecommerce.Controllers
                 }
             }
 
+            await Banner();
             return RedirectToAction("AdminPage");
         }
 
@@ -466,7 +470,7 @@ namespace Ecommerce.Controllers
                     int righeInteressate = await command.ExecuteNonQueryAsync();
                 }
             }
-
+            await Banner();
             return RedirectToAction("AdminPage");
         }
 
