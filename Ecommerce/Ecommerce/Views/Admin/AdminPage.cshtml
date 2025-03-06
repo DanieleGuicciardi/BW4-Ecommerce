@@ -1,6 +1,7 @@
 ﻿@model AdminProductsViewModel;
 @{
 	ViewData["Title"] = "Admin Page";
+	CategoryViewModel categories = ViewBag.CategoryList;
 }
 
 <div class="container-fluid my-5 py-3">
@@ -13,6 +14,10 @@
 		<div class="col-8">
 			<h1 class="text-center mb-4 pt-5">Pagina Amministratore</h1>
 		</div>
+		@if (TempData["ErrorDel"] != null)
+{
+	<span class="text-danger">@TempData["ErrorDel"]</span>
+}
 		<div class="col-2">
 		</div>
 	</div>
@@ -21,7 +26,6 @@
 			<div class="add-icon"></div>
 			<div class="btn-txt text-white">Nuovo prodotto</div>
 		</button>
-
 	</div>
 	<table class="table table-bordered table-hover">
 		<thead class="thead-dark ">
@@ -84,6 +88,36 @@
 								</svg>
 							</button>
 						</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+	<h2>LISTA CATEGORIE</h2>
+
+	<div class="text-end">
+		<a class="btn btn-warning btn-sm mt-1 mb-3" asp-controller="Admin" asp-action="AddCategoryPage"><i class="bi bi-plus-lg"></i> AGGIUNGI CATEGORIA</a>
+	</div>
+
+	<table class="table table-bordered table-hover">
+		<thead class="thead-dark ">
+			<tr class="text-center centroTab">
+				<th>Id</th>
+				<th>Nome</th>
+				<th>Copertina</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var category in categories.Categories)
+			{
+				<tr class="centroTab">
+					<td>@category.Id</td>
+					<td>@category.Name</td>
+					<td>@category.Img</td>
+					<td class=" d-flex border-0">
+						<a class="btn btn-warning btn-sm mx-1" asp-controller="Admin" asp-action="EditCategoryPage" asp-route-id="@category.Id"><i class="bi bi-pencil-square"></i></a>
+						<a class="btn btn-danger btn-sm mx-1" asp-controller="Admin" asp-action="DeleteCategory" asp-route-id="@category.Id"><i class="bi bi-trash3"></i></a>
 					</td>
 				</tr>
 			}
