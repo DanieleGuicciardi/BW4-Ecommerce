@@ -139,6 +139,23 @@ namespace Ecommerce.Controllers
             await Banner();
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        public async Task<IActionResult> DeleteAll(Guid cartId)
+        {
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string deleteQuery = "DELETE FROM CART WHERE Id = @CartId";
+
+                await using (SqlCommand deleteCommand = new SqlCommand(deleteQuery, connection))
+                {
+                    deleteCommand.Parameters.AddWithValue("@CartId", cartId);
+                    await deleteCommand.ExecuteNonQueryAsync();
+                }
+            }
+            await Banner();
+            return RedirectToAction("Index");
+        }
 
     }
 }

@@ -44,6 +44,10 @@
 								<input type="hidden" name="cartId" value="@item.CartId" />
 								<button type="submit" class="btn btn-danger btn-sm">Rimuovi</button>
 							</form>
+							<form asp-action="DeleteAll" asp-controller="Cart" method="post">
+								<input type="hidden" name="cartId" value="@item.CartId" />
+								<button type="submit" class="btn btn-danger">Elimina</button>
+							</form>
 						</td>
 					</tr>
 				}
