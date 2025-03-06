@@ -158,8 +158,7 @@ namespace Ecommerce.Controllers
 
             if (string.IsNullOrWhiteSpace(query))
             {
-                ViewBag.Message = "Non puoi cercare il nulla!";
-                return View("Index", categoryList);
+                return RedirectToAction("Index");
             }
 
             await using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -194,6 +193,7 @@ namespace Ecommerce.Controllers
                 ViewBag.Message = "Nessuna categoria presente con quel nome!";
             }
 
+            await Banner();
             return View("Index", categoryList);
         }
 
@@ -207,7 +207,8 @@ namespace Ecommerce.Controllers
 
             if (string.IsNullOrWhiteSpace(query))
             {
-                ViewBag.Message = "Non puoi cercare il nulla!";
+                ViewBag.Message = "Ricerca non valida!";
+                await Banner();
                 return View("PrintProducts", productList);
             }
 
@@ -252,6 +253,7 @@ namespace Ecommerce.Controllers
                 ViewBag.Message = "Prodotto non trovato.";
             }
 
+            await Banner();
             return View("PrintProducts", productList);
         }
 
