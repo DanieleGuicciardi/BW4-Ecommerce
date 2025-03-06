@@ -13,7 +13,26 @@
 		</div>
 		<div class="col-8">
 			<h1 class="text-center mb-4 pt-5">Prodotti</h1>
+
+			<form asp-controller="Home" asp-action="SearchProducts" method="get" class="d-flex justify-content-center mt-3 mb-5">
+				<div class="input-group w-50 shadow-sm">
+					<input type="text" name="query" class="form-control border-primary"
+						   placeholder="Cerca" aria-label="Cerca prodotti" />
+					<button type="submit" class="btn btn-primary">
+						<i class="fas fa-search"></i> Cerca
+					</button>
+				</div>
+			</form>
+
+			@if (!string.IsNullOrEmpty(ViewBag.Message))
+			{
+				<div class="text-center mt-3">
+					@ViewBag.Message
+				</div>
+			}
+
 		</div>
+
 		<div class="col-2">
 		</div>
 		@foreach (var prodotto in Model.Products)
