@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Microsoft.Data.SqlClient;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Ecommerce.Controllers
 {
@@ -22,7 +23,36 @@ namespace Ecommerce.Controllers
             _connectionString = configuration.GetConnectionString("DefaultConnection");
             _logger = logger;
         }
+        public async Task<Object> Banner()
+        {
+            int quantita = 0;
 
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query2 = @"SELECT ISNULL(SUM(Quantity), 0) FROM CART;";
+
+                await using (SqlCommand command = new SqlCommand(query2, connection))
+                {
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            if (!reader.IsDBNull(0))
+                            {
+                                quantita = reader.GetInt32(0);
+                            }
+                            else
+                            {
+                                quantita = 0;
+                            }
+
+                        }
+                    };
+                }
+            }
+            return TempData["TotQuantita"] = quantita;
+        }
         public async Task<IActionResult> Index()
         {
             var categoryList = new CategoryViewModel()
@@ -33,6 +63,7 @@ namespace Ecommerce.Controllers
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
+
                 string query = "SELECT * FROM CATEGORIES";
 
                 await using (SqlCommand command = new SqlCommand(query, connection))
@@ -53,6 +84,7 @@ namespace Ecommerce.Controllers
                     }
                 }
             }
+            await Banner();
 
             return View(categoryList);
         }
@@ -84,7 +116,8 @@ namespace Ecommerce.Controllers
                             {
                                 img2 = reader.GetString(6);
                                 img3 = reader.GetString(7);
-                            } else
+                            }
+                            else
                             {
                                 img2 = null;
                                 img3 = null;
@@ -106,17 +139,13 @@ namespace Ecommerce.Controllers
                                 }
                             );
 
+                        }
                     }
                 }
             }
-        }
 
+            await Banner();
             return View(printProducts);
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
     }

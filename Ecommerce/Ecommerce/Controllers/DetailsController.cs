@@ -9,14 +9,43 @@ namespace Ecommerce.Controllers
     public class DetailsController : Controller
     {
         private readonly string _connectionString;
+        public async Task<Object> Banner()
+        {
+            int quantita = 0;
 
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query2 = @"SELECT SUM(Quantity) FROM CART";
+
+                await using (SqlCommand command = new SqlCommand(query2, connection))
+                {
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            if (!reader.IsDBNull(0))
+                            {
+                                quantita = reader.GetInt32(0);
+                            }
+                            else
+                            {
+                                quantita = 0;
+                            }
+
+                        }
+                    };
+                }
+            }
+            return TempData["TotQuantita"] = quantita;
+        }
         public DetailsController(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         [HttpGet("details/{id:guid}")]
-        public async Task<IActionResult> Index(Guid id)
+        public async Task<IActionResult> Index(Guid id, bool toastAttivo)
         {
             Product product = new Product();
 
@@ -63,12 +92,16 @@ namespace Ecommerce.Controllers
                 }
             }
 
+            TempData["Toast"] = toastAttivo;
+            await Banner();
             return View(product);
         }
 
         [HttpPost("details/add-to-cart/{id:guid}")]
-        public async Task<IActionResult> AddToCart(Guid id)
+        public async Task<IActionResult> AddToCart(Guid id, int quantity)
         {
+            if (quantity <= 0) quantity = 1; 
+
             int categoryId = 0;
 
             await using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -80,23 +113,21 @@ namespace Ecommerce.Controllers
                 {
                     categoryCommand.Parameters.AddWithValue("@Id", id);
                     var result = await categoryCommand.ExecuteScalarAsync();
-
-                    if (result != null)
+                    if (result != null && result != DBNull.Value)
                     {
                         categoryId = Convert.ToInt32(result);
                     }
                 }
 
-                //funzione che controlla se il product e gia nel cart
                 string checkQuery = "SELECT Quantity FROM CART WHERE IdProduct = @IdProduct";
                 await using (SqlCommand checkCommand = new SqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@IdProduct", id);
                     var existingQuantity = await checkCommand.ExecuteScalarAsync();
 
-                    if (existingQuantity != null)
+                    if (existingQuantity != null && existingQuantity != DBNull.Value)
                     {
-                        int newQuantity = Convert.ToInt32(existingQuantity) + 1;
+                        int newQuantity = Convert.ToInt32(existingQuantity) + quantity;
                         string updateQuery = "UPDATE CART SET Quantity = @Quantity WHERE IdProduct = @IdProduct";
 
                         await using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
@@ -113,17 +144,19 @@ namespace Ecommerce.Controllers
                         await using (SqlCommand insertCommand = new SqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@Id", Guid.NewGuid());
-                            insertCommand.Parameters.AddWithValue("@Quantity", 1);
+                            insertCommand.Parameters.AddWithValue("@Quantity", quantity);
                             insertCommand.Parameters.AddWithValue("@IdProduct", id);
                             await insertCommand.ExecuteNonQueryAsync();
                         }
                     }
                 }
+
             }
 
-            return RedirectToAction("PrintProducts", "Home", new { id = categoryId });
+            await Banner();
+            var toastAttivo = true;
+            return RedirectToAction("Index", new { id, toastAttivo });
         }
-
 
     }
 }

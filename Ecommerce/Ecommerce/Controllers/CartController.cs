@@ -21,6 +21,38 @@ namespace Ecommerce.Controllers
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
+        public async Task<Object> Banner()
+        {
+            int quantita = 0;
+
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query2 = @"SELECT SUM(Quantity) FROM CART";
+
+                await using (SqlCommand command = new SqlCommand(query2, connection))
+                {
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            if (!reader.IsDBNull(0))
+                            {
+                                quantita = reader.GetInt32(0);
+                            }
+                            else
+                            {
+                                quantita = 0;
+                            }
+
+                        }
+                    };
+                }
+            }
+            return TempData["TotQuantita"] = quantita;
+        }
+
+
         public async Task<IActionResult> Index()
         {
             var cartViewModel = new CartViewModel()
@@ -58,24 +90,55 @@ namespace Ecommerce.Controllers
                     }
                 }
             }
+            await Banner();
             return View(cartViewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(Guid cartId)
+        public async Task<IActionResult> Delete(Guid cartId, int quantity)
         {
+            if (quantity <= 0) quantity = 1;
+
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "DELETE FROM CART WHERE Id = @CartId";
-
-                await using (SqlCommand command = new SqlCommand(query, connection))
+                string checkQuery = "SELECT Quantity FROM CART WHERE Id = @CartId";
+                await using (SqlCommand checkCommand = new SqlCommand(checkQuery, connection))
                 {
-                    command.Parameters.AddWithValue("@CartId", cartId);
-                    await command.ExecuteNonQueryAsync();
+                    checkCommand.Parameters.AddWithValue("@CartId", cartId);
+                    var existingQuantity = await checkCommand.ExecuteScalarAsync();
+
+                    if (existingQuantity != null && existingQuantity != DBNull.Value)
+                    {
+                        int currentQuantity = Convert.ToInt32(existingQuantity);
+
+                        if (currentQuantity > quantity)
+                        {
+                            string updateQuery = "UPDATE CART SET Quantity = Quantity - @Quantity WHERE Id = @CartId";
+
+                            await using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
+                            {
+                                updateCommand.Parameters.AddWithValue("@Quantity", quantity);
+                                updateCommand.Parameters.AddWithValue("@CartId", cartId);
+                                await updateCommand.ExecuteNonQueryAsync();
+                            }
+                        }
+                        else
+                        {
+                            string deleteQuery = "DELETE FROM CART WHERE Id = @CartId";
+
+                            await using (SqlCommand deleteCommand = new SqlCommand(deleteQuery, connection))
+                            {
+                                deleteCommand.Parameters.AddWithValue("@CartId", cartId);
+                                await deleteCommand.ExecuteNonQueryAsync();
+                            }
+                        }
+                    }
                 }
             }
+            await Banner();
             return RedirectToAction("Index");
         }
+
     }
 }

@@ -1,20 +1,20 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
@@ -28,18 +28,18 @@ body {
     box-sizing: border-box;
 }
 
-body::before {
-     content: "";
-     position: fixed;
-     top: 0;
-     left: 0;
-     width: 100%;
-     height: 100%;
-     backdrop-filter: blur(5px);
-     z-index: -1; 
-}
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(5px);
+        z-index: -1;
+    }
 
-.navbar{
+.navbar {
     background-color: #91DED4 !important;
 }
 
@@ -48,7 +48,7 @@ body::before {
     line-height: 0.9;
 }
 
-.logoBig{
+.logoBig {
     border-radius: 50%;
 }
 
@@ -56,9 +56,9 @@ body::before {
     transition: transform 0.1s ease-in-out;
 }
 
-.categoria:hover{
-    transform: scale(1.1);
-}
+    .categoria:hover {
+        transform: scale(1.1);
+    }
 
 .circular-img {
     width: 210px;
@@ -68,11 +68,11 @@ body::before {
     box-shadow: 0px 10px 41px -15px black;
 }
 
-.descShort{
-    height:35px;
+.descShort {
+    height: 35px;
 }
 
-.imgPiccole{
+.imgPiccole {
     width: 60%;
 }
 
@@ -84,6 +84,406 @@ body::before {
     background: rgba(80, 169, 177, 0.3);
 }
 
+.carousel-item {
+    min-height: 200px;
+}
+
+    .carousel-item img {
+        object-fit: contain;
+    }
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(1);
+}
+
 .footer {
     background: rgba(255, 255, 255, 0.25);
+}
+
+
+/*PROVA CARD*/
+
+.flip-card {
+    background-color: transparent;
+    width: 400px;
+    height: 400px;
+    perspective: 1000px;
+    color: white;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+    box-shadow: 0 8px 14px 0 rgba(0,0,0,0.2);
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 1rem;
+}
+
+.flip-card-front {
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+    background-color: #171717;
+}
+
+.flip-card-back {
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+    background: rgba(80, 169, 177, 0.3);
+    color: black;
+    transform: rotateY(180deg);
+}
+
+.imgDettagli {
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+    border-radius: 20px;
+}
+
+#toastFikissimo {
+    bottom: 8% !important;
+    right: 0% !important;
+}
+
+.toast-header {
+    background: rgba(255, 255, 255, 1);
+}
+
+.toast-body {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+
+/*bottone back*/
+
+.button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #F27141;
+    border: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 0px 4px rgba(242, 113, 65, 0.253);
+    cursor: pointer;
+    transition-duration: 0.3s;
+    overflow: hidden;
+    position: relative;
+}
+
+.svgIcon {
+    width: 12px;
+    transition-duration: 0.3s;
+    color: white
+}
+
+.button:hover {
+    width: 140px;
+    border-radius: 50px;
+    transition-duration: 0.3s;
+    background-color: rgba(242, 113, 65, 1);
+    align-items: center;
+}
+
+    .button:hover .svgIcon {
+        transition-duration: 0.3s;
+        transform: translateX(-700%);
+    }
+
+.button::before {
+    position: absolute;
+    bottom: -20px;
+    content: "INDIETRO";
+    color: white;
+    font-size: 0px;
+}
+
+.button:hover::before {
+    font-size: 13px;
+    opacity: 1;
+    bottom: unset;
+    transition-duration: 0.3s;
+}
+
+/*navbar*/
+
+.tabs {
+    display: flex;
+    position: relative;
+    background-color: transparent;
+    box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15), 0 6px 12px 0 rgba(24, 94, 224, 0.15);
+    padding: 0.75rem;
+    border-radius: 99px;
+}
+
+    .tabs * {
+        z-index: 2;
+    }
+
+.container input[type="radio"] {
+    display: none;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 100px;
+    font-size: .8rem;
+    color: black;
+    font-weight: 500;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: color 0.15s ease-in;
+}
+
+.notification {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    top: 10px;
+    left: 60%;
+    font-size: 11px;
+    margin-left: 0.75rem;
+    border-radius: 50%;
+    margin: 0px;
+    background-color: #e6eef9;
+    transition: 0.15s ease-in;
+}
+
+.container input[type="radio"]:checked + label {
+    color: #185ee0;
+}
+
+    .container input[type="radio"]:checked + label > .notification {
+        background-color: #185ee0;
+        color: #fff;
+        margin: 0px;
+    }
+
+.container input[id="radio-1"]:checked ~ .glider {
+    transform: translateX(0);
+}
+
+.container input[id="radio-2"]:checked ~ .glider {
+    transform: translateX(100%);
+}
+
+.container input[id="radio-3"]:checked ~ .glider {
+    transform: translateX(200%);
+}
+
+@media (max-width: 700px) {
+
+    .tabs {
+        transform: scale(0.6);
+    }
+}
+
+/*bottone aggiungi al carrello*/
+
+.cartBtn {
+    width: 130px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    color: white;
+    font-weight: 500;
+    position: relative;
+    background-color: #F27141;
+    box-shadow: 0 20px 30px -7px rgba(27, 27, 27, 0.219);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.cart {
+    z-index: 2;
+}
+
+.cartBtn:active {
+    transform: scale(0.96);
+}
+
+.product {
+    position: absolute;
+    width: 12px;
+    border-radius: 3px;
+    content: "";
+    left: 23px;
+    bottom: 23px;
+    opacity: 0;
+    z-index: 1;
+    fill: rgb(211, 211, 211);
+}
+
+.cartBtn:hover .product {
+    animation: slide-in-top 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes slide-in-top {
+    0% {
+        transform: translateY(-30px);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(0) rotate(-90deg);
+        opacity: 1;
+    }
+}
+
+.cartBtn:hover .cart {
+    animation: slide-in-left 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes slide-in-left {
+    0% {
+        transform: translateX(-10px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+#quantity {
+    width: 13%;
+    background-color: transparent;
+    border-color: transparent;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.btn, .button:focus, .btn:focus {
+    outline: none !important;
+}
+
+.button:focus {
+    box-shadow: 0px 0px 0px 4px rgba(242, 113, 65, 0.253) !important;
+}
+
+/*BOTTONE NUOVO PRODOTTO*/
+
+.icon-btn {
+    width: 50px;
+    height: 50px;
+    background: #F27141;
+    border: 1px solid #F27141;
+    border-radius: 25px;
+    overflow: hidden;
+    position: relative;
+    transition: width 0.2s ease-in-out;
+    font-weight: 500;
+    box-shadow: 0px 0px 0px 4px rgba(242, 113, 65, 0.253) !important;
+}
+
+.add-btn:hover {
+    width: 175px;
+}
+
+.add-btn::before,
+.add-btn::after {
+    transition: width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+    content: "";
+    position: absolute;
+    height: 4px;
+    width: 10px;
+    top: calc(50% - 2px);
+    background: white;
+}
+
+.add-btn::after {
+    right: 14px;
+    overflow: hidden;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.add-btn::before {
+    left: 14px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.icon-btn:focus {
+    outline: none;
+}
+
+.btn-txt {
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.add-btn:hover::before,
+.add-btn:hover::after {
+    width: 4px;
+    border-radius: 2px;
+}
+
+.add-btn:hover .btn-txt {
+    opacity: 1;
+}
+
+.add-icon::after,
+.add-icon::before {
+    transition: all 0.3s ease-in-out;
+    content: "";
+    position: absolute;
+    height: 20px;
+    width: 2px;
+    top: calc(50% - 10px);
+    background: white;
+    overflow: hidden;
+}
+
+.add-icon::before {
+    left: 22px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.add-icon::after {
+    right: 22px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.add-btn:hover .add-icon::before {
+    left: 15px;
+    height: 4px;
+    top: calc(50% - 2px);
+}
+
+.add-btn:hover .add-icon::after {
+    right: 15px;
+    height: 4px;
+    top: calc(50% - 2px);
 }
