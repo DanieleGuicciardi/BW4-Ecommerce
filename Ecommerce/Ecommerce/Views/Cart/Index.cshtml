@@ -93,6 +93,14 @@
 			<h4>Totale: @(Model.CartItems.Sum(item => item.Product.Price * item.Quantity).ToString("F2")) €</h4>
 		</div>
 	}
+	else if (ViewData["IsLogged"] != null && (bool)ViewData["IsLogged"] == false)
+{
+		<div class="d-flex justify-content-center text-center">
+			<div class="alert alert-danger w-50" role="alert">
+				Effettua il login per visualizzare il carrello.
+			</div>
+		</div>
+}
 	else
 	{
 		<div class="d-flex justify-content-center text-center">

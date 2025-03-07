@@ -246,8 +246,10 @@ namespace Ecommerce.Controllers
             if (categoryList.Categories.Count == 0)
             {
                 ViewBag.Message = "Nessuna categoria presente con quel nome!";
+                await IsUserLogged();
             }
 
+            await IsUserLogged();
             await Banner();
             return View("Index", categoryList);
         }
@@ -306,8 +308,10 @@ namespace Ecommerce.Controllers
             if (productList.Products.Count == 0)
             {
                 ViewBag.Message = "Prodotto non trovato.";
+                await IsUserLogged();
             }
 
+            await IsUserLogged();
             await Banner();
             return View("PrintProducts", productList);
         }
