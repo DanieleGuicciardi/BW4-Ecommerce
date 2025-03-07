@@ -40,17 +40,17 @@ Il database **BW4_ECOMMERCE** è composto dalle seguenti tabelle principali:
 - Eliminazione prodotti dal carrello.
 
 ## Installazione e Configurazione
-### 1️⃣ Clonare il Repository
+### Clonare il Repository
 ```bash
 git clone https://github.com/tuo-utente/tuo-repo.git
 cd tuo-repo
 ```
 
-### 2️⃣ Configurare il Database
+### Configurare il Database
 - Importare lo script SQL presente nella cartella `database`.
 - Modificare `appsettings.json` con la stringa di connessione corretta.
 
-### 3️⃣ Avviare il Progetto
+### Avviare il Progetto
 Aprire il progetto in **Visual Studio** e avviare l'applicazione.
 
 ## Developers
