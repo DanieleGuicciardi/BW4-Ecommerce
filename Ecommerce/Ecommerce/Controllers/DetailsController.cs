@@ -79,11 +79,12 @@ namespace Ecommerce.Controllers
         {
             await IsUserLogged();
             Product product = new Product();
+            int categoryId = 0;
 
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "SELECT Id, Name, Price, Description, Img, Img2, Img3 FROM PRODUCTS WHERE Id = @Id";
+                string query = "SELECT Id, Name, Price, Description, Img, Img2, Img3, IdCategory FROM PRODUCTS WHERE Id = @Id";
 
                 await using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -91,22 +92,11 @@ namespace Ecommerce.Controllers
 
                     await using (SqlDataReader reader = await command.ExecuteReaderAsync())
                     {
-
                         while (await reader.ReadAsync())
                         {
-                            string img2;
-                            string img3;
-                            bool prova = await reader.IsDBNullAsync(0);
-                            if (!reader.IsDBNull(5) && !reader.IsDBNull(6))
-                            {
-                                img2 = reader.GetString(5);
-                                img3 = reader.GetString(6);
-                            }
-                            else
-                            {
-                                img2 = null;
-                                img3 = null;
-                            }
+                            string img2 = reader.IsDBNull(5) ? null : reader.GetString(5);
+                            string img3 = reader.IsDBNull(6) ? null : reader.GetString(6);
+                            categoryId = reader.GetInt32(7);
 
                             product = new Product
                             {
@@ -116,7 +106,8 @@ namespace Ecommerce.Controllers
                                 Description = reader.GetString(3),
                                 Img = reader.GetString(4),
                                 Img2 = img2,
-                                Img3 = img3
+                                Img3 = img3,
+                                Category = categoryId
                             };
                         }
                     }
@@ -125,6 +116,7 @@ namespace Ecommerce.Controllers
 
             TempData["Toast"] = toastAttivo;
             await Banner();
+            ViewBag.CategoryId = categoryId; 
             return View(product);
         }
 

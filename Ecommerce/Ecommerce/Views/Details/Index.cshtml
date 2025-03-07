@@ -8,9 +8,9 @@
 <div class="container d-flex align-items-center mt-4 py-3" style="height: 90dvh">
 	<div class="row align-items-center text-center">
 		<div class="text-end col-2 mb-4">
-			<button class="button" onclick="window.history.back();">
+			<a asp-controller="Home" asp-action="PrintProducts" asp-route-id="@ViewBag.CategoryId" class="button">
 				<i class="bi bi-arrow-left svgIcon"></i>
-			</button>
+			</a>
 		</div>
 		<div class="col-8  mb-4">
 			<h1 class="text-center ">Dettagli</h1>
