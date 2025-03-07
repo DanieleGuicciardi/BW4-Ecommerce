@@ -4,28 +4,37 @@
 }
 
 <div class="container-fluid mt-5 pt-5">
-	<h1 class="mt-4 text-center">Nuova Categoria</h1>
+	@{
+		if (ViewData["IsAdmin"] != null && (bool)ViewData["IsAdmin"] == true)
+		{
+			<h1 class="mt-4 text-center">Nuova Categoria</h1>
 
-	@if (TempData["Error"] != null)
-	{
-		<span class="text-danger">@TempData["Error"]</span>
+			@if (TempData["Error"] != null)
+			{
+				<span class="text-danger">@TempData["Error"]</span>
+			}
+			<form method="post" asp-controller="Admin" asp-action="AddCategory">
+				<div class="formGroup">
+					<label for="name" asp-for="Name" class="form-label"></label>
+					<input id="name" asp-for="Name" class="form-control" />
+					<span class="text-danger" asp-validation-for="Name"></span>
+				</div>
+
+				<div class="formGroup">
+					<label for="img" asp-for="Img" class="form-label"></label>
+					<input id="img" asp-for="Img" class="form-control" />
+					<span class="text-danger" asp-validation-for="Img"></span>
+				</div>
+
+				<div class="m-2 text-end">
+					<button class="btn btn-sm btn-success" type="submit">Save</button>
+					<button class="btn btn-sm btn-warning" type="reset">Reset</button>
+				</div>
+			</form>
+		}
+		else
+		{
+			<h4 class="text-danger fw-bold mt-5">Non sei autorizzato a visualizzare questa pagina!</h4>
+		}
 	}
-	<form method="post" asp-controller="Admin" asp-action="AddCategory">
-		<div class="formGroup">
-			<label for="name" asp-for="Name" class="form-label"></label>
-			<input id="name" asp-for="Name" class="form-control" />
-			<span class="text-danger" asp-validation-for="Name"></span>
-		</div>
-
-		<div class="formGroup">
-			<label for="img" asp-for="Img" class="form-label"></label>
-			<input id="img" asp-for="Img" class="form-control" />
-			<span class="text-danger" asp-validation-for="Img"></span>
-		</div>
-
-		<div class="m-2 text-end">
-			<button class="btn btn-sm btn-success" type="submit">Save</button>
-			<button class="btn btn-sm btn-warning" type="reset">Reset</button>
-		</div>
-	</form>
 </div>

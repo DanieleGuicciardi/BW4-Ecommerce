@@ -19,8 +19,62 @@ namespace Ecommerce.Controllers
             _logger = logger;
         }
 
-        public IActionResult LoginPage()
+
+        public async Task<Object> IsUserLogged()
         {
+            //query per controllare se ci sono account loggati
+            int loggedCount = new();
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query = "SELECT COUNT(IsLogged) FROM LOGIN WHERE IsLogged=1";
+
+                await using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            loggedCount = reader.GetInt32(0);
+                        }
+                    }
+                }
+            }
+
+            //query per controllare Admin
+            bool isAdmin = false;
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query = "SELECT Admin FROM LOGIN WHERE IsLogged=1";
+
+                await using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            isAdmin = reader.GetBoolean(0);
+                        }
+                    }
+                }
+            }
+
+            if (loggedCount >= 1)
+            {
+                return (ViewData["IsLogged"] = true, ViewData["IsAdmin"] = isAdmin);
+
+            }
+            else
+            {
+                return ViewData["IsLogged"] = false;
+            }
+        }
+
+
+        public async Task<IActionResult> LoginPage()
+        {
+            await IsUserLogged();
             return View();
         }
 
@@ -65,8 +119,9 @@ namespace Ecommerce.Controllers
             return RedirectToAction("LoginPage");
         }
 
-        public IActionResult RegisterPage()
+        public async Task<IActionResult> RegisterPage()
         {
+            await IsUserLogged();
             return View();
         }
 
@@ -87,7 +142,7 @@ namespace Ecommerce.Controllers
                 await using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     await connection.OpenAsync();
-                    string query = "INSERT INTO LOGIN VALUES (@Id, @Username, @Password, 0)";
+                    string query = "INSERT INTO LOGIN VALUES (@Id, @Username, @Password, 0, 0)";
 
                     await using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -98,8 +153,9 @@ namespace Ecommerce.Controllers
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                var eccezione = ex.Message;
                 TempData["UniqueUsername"] = "Username già in uso!";
                 return RedirectToAction("RegisterPage");
             }

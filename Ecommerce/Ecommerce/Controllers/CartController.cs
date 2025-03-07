@@ -54,6 +54,7 @@ namespace Ecommerce.Controllers
 
         public async Task<Object> IsUserLogged()
         {
+            //query per controllare se ci sono account loggati
             int loggedCount = new();
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -71,9 +72,30 @@ namespace Ecommerce.Controllers
                     }
                 }
             }
+
+            //query per controllare Admin
+            bool isAdmin = false;
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query = "SELECT Admin FROM LOGIN WHERE IsLogged=1";
+
+                await using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            isAdmin = reader.GetBoolean(0);
+                        }
+                    }
+                }
+            }
+
             if (loggedCount >= 1)
             {
-                return ViewData["IsLogged"] = true;
+                return (ViewData["IsLogged"] = true, ViewData["IsAdmin"] = isAdmin);
+
             }
             else
             {
