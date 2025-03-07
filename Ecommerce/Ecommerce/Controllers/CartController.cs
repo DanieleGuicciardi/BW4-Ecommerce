@@ -92,8 +92,7 @@ namespace Ecommerce.Controllers
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = @"SELECT CART.Id, Quantity, PRODUCTS.Id, Name, Price, Img FROM CART INNER JOIN PRODUCTS 
-                                ON IdProduct= PRODUCTS.Id INNER JOIN LOGIN ON CART.Id = LOGIN.Id WHERE LOGIN.IsLogged=1";
+                string query = "SELECT CART.Id, Quantity, PRODUCTS.Id, Name, Price, Img FROM CART INNER JOIN PRODUCTS ON IdProduct= PRODUCTS.Id INNER JOIN LOGIN ON CART.Id = LOGIN.Id WHERE LOGIN.IsLogged=1";
 
                 await using (SqlCommand command = new SqlCommand(query, connection))
                 {
