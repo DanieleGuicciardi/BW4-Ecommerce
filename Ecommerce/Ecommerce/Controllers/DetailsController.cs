@@ -16,7 +16,7 @@ namespace Ecommerce.Controllers
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query2 = @"SELECT SUM(Quantity) FROM CART";
+                string query2 = @"SELECT SUM(Quantity) FROM CART INNER JOIN LOGIN ON CART.Id = LOGIN.Id WHERE LOGIN.IsLogged=1";
 
                 await using (SqlCommand command = new SqlCommand(query2, connection))
                 {
@@ -39,6 +39,36 @@ namespace Ecommerce.Controllers
             }
             return TempData["TotQuantita"] = quantita;
         }
+
+        public async Task<Object> IsUserLogged()
+        {
+            int loggedCount = new();
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query = "SELECT COUNT(IsLogged) FROM LOGIN WHERE IsLogged=1";
+
+                await using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            loggedCount = reader.GetInt32(0);
+                        }
+                    }
+                }
+            }
+            if (loggedCount >= 1)
+            {
+                return ViewData["IsLogged"] = true;
+            }
+            else
+            {
+                return ViewData["IsLogged"] = false;
+            }
+        }
+
         public DetailsController(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
@@ -47,12 +77,14 @@ namespace Ecommerce.Controllers
         [HttpGet("details/{id:guid}")]
         public async Task<IActionResult> Index(Guid id, bool toastAttivo)
         {
+            await IsUserLogged();
             Product product = new Product();
+            int categoryId = 0;
 
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "SELECT Id, Name, Price, Description, Img, Img2, Img3 FROM PRODUCTS WHERE Id = @Id";
+                string query = "SELECT Id, Name, Price, Description, Img, Img2, Img3, IdCategory FROM PRODUCTS WHERE Id = @Id";
 
                 await using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -60,22 +92,11 @@ namespace Ecommerce.Controllers
 
                     await using (SqlDataReader reader = await command.ExecuteReaderAsync())
                     {
-
                         while (await reader.ReadAsync())
                         {
-                            string img2;
-                            string img3;
-                            bool prova = await reader.IsDBNullAsync(0);
-                            if (!reader.IsDBNull(5) && !reader.IsDBNull(6))
-                            {
-                                img2 = reader.GetString(5);
-                                img3 = reader.GetString(6);
-                            }
-                            else
-                            {
-                                img2 = null;
-                                img3 = null;
-                            }
+                            string img2 = reader.IsDBNull(5) ? null : reader.GetString(5);
+                            string img3 = reader.IsDBNull(6) ? null : reader.GetString(6);
+                            categoryId = reader.GetInt32(7);
 
                             product = new Product
                             {
@@ -85,7 +106,8 @@ namespace Ecommerce.Controllers
                                 Description = reader.GetString(3),
                                 Img = reader.GetString(4),
                                 Img2 = img2,
-                                Img3 = img3
+                                Img3 = img3,
+                                Category = categoryId
                             };
                         }
                     }
@@ -94,6 +116,7 @@ namespace Ecommerce.Controllers
 
             TempData["Toast"] = toastAttivo;
             await Banner();
+            ViewBag.CategoryId = categoryId; 
             return View(product);
         }
 
@@ -103,10 +126,31 @@ namespace Ecommerce.Controllers
             if (quantity <= 0) quantity = 1; 
 
             int categoryId = 0;
+            Guid CartId = new Guid();
 
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
+
+                string isLoggedQuery = "SELECT Id FROM LOGIN WHERE IsLogged = 1";
+                await using (SqlCommand isLoggedCommand = new SqlCommand(isLoggedQuery, connection))
+                {
+                    await using (SqlDataReader reader = await isLoggedCommand.ExecuteReaderAsync())
+                    {
+                        if (reader.HasRows) 
+                        {
+                            while (reader.Read())
+                            {
+                                CartId = reader.GetGuid(0);
+                            }
+                        }
+                        else
+                        {
+                            TempData["Login"] = "Devi effettuare il Login per questa operazione";
+                            return RedirectToAction("Index", new { id });
+                        }
+                    }
+                }
 
                 string getCategoryQuery = "SELECT IdCategory FROM PRODUCTS WHERE Id = @Id";
                 await using (SqlCommand categoryCommand = new SqlCommand(getCategoryQuery, connection))
@@ -119,7 +163,7 @@ namespace Ecommerce.Controllers
                     }
                 }
 
-                string checkQuery = "SELECT Quantity FROM CART WHERE IdProduct = @IdProduct";
+                string checkQuery = "SELECT Quantity FROM CART INNER JOIN LOGIN ON CART.Id = LOGIN.Id WHERE IdProduct = @IdProduct AND LOGIN.IsLogged=1";
                 await using (SqlCommand checkCommand = new SqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@IdProduct", id);
@@ -143,7 +187,7 @@ namespace Ecommerce.Controllers
 
                         await using (SqlCommand insertCommand = new SqlCommand(insertQuery, connection))
                         {
-                            insertCommand.Parameters.AddWithValue("@Id", Guid.NewGuid());
+                            insertCommand.Parameters.AddWithValue("@Id", CartId);
                             insertCommand.Parameters.AddWithValue("@Quantity", quantity);
                             insertCommand.Parameters.AddWithValue("@IdProduct", id);
                             await insertCommand.ExecuteNonQueryAsync();

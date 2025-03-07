@@ -6,12 +6,12 @@
 
 <div class="container-fluid text-center mt-3 mb-5">
     <img src="~/img/mordi (200 x 50 px) (1).png" alt="logo" class="pt-5 logoBig"/>
-	<form asp-controller="Home" asp-action="SearchCategories" method="get" class="d-flex justify-content-center mt-3 mb-5">
-		<div class="input-group w-50 shadow-sm">
-			<input type="text" name="query" class="form-control border-primary"
-				   placeholder="Cerca..." aria-label="Cerca categorie" />
-			<button type="submit" class="btn btn-primary">
-				<i class="fas fa-search"></i> Cerca
+	<form asp-controller="Home" asp-action="SearchCategories" method="get" class="d-flex justify-content-center mb-3">
+		<div class="d-flex align-items-center">
+			<input type="text" name="query" class="input" autocomplete="off"
+				   placeholder="Cerca categorie..." aria-label="Cerca categorie" />
+			<button type="submit" class="btn bg-transparent">
+				<i class="bi bi-search"></i>
 			</button>
 		</div>
 	</form>

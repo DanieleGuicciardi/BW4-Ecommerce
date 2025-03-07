@@ -164,3 +164,20 @@ UPDATE PRODUCTS SET Img3 = 'https://png.pngtree.com/png-clipart/20240314/origina
 UPDATE PRODUCTS SET Img2 = 'https://png.pngtree.com/png-clipart/20240612/original/pngtree-chocolate-and-cocoa-powder-png-image_15311306.png' WHERE Name = 'Tiramisù'
 
 UPDATE PRODUCTS SET Img3 = 'https://png.pngtree.com/png-clipart/20240418/original/pngtree-mascarpone-cheese-on-wooden-table-homemade-soft-cream-png-image_14883181.png' WHERE Name = 'Tiramisù'
+
+ALTER TABLE CART ALTER COLUMN Quantity INT NULL;
+
+CREATE TABLE LOGIN(
+Id UNIQUEIDENTIFIER PRIMARY KEY NOT NULL,
+Username VARCHAR(20) UNIQUE NOT NULL,
+Password VARCHAR(20) NOT NULL,
+IsLogged BIT NOT NULL
+)
+
+ALTER TABLE CART
+ADD CONSTRAINT FK_IdLogin FOREIGN KEY (Id) REFERENCES LOGIN(Id)
+
+
+--BISOGNA PRIMA TOGLIERE LA PRIMARY KEY ESISTENTE SU Id!!!!!!!!!
+ALTER TABLE CART 
+ADD CONSTRAINT PK_IdProduct PRIMARY KEY (Id, IdProduct)

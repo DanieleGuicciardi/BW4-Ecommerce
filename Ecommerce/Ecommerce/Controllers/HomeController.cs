@@ -1,9 +1,9 @@
 using Microsoft.Data.SqlClient;
 using System.Diagnostics;
-using Microsoft.Data.SqlClient;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System.Reflection.PortableExecutable;
 
 namespace Ecommerce.Controllers
 {
@@ -30,7 +30,7 @@ namespace Ecommerce.Controllers
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query2 = @"SELECT ISNULL(SUM(Quantity), 0) FROM CART;";
+                string query2 = @"SELECT ISNULL(SUM(Quantity), 0) FROM CART INNER JOIN LOGIN ON CART.Id = LOGIN.Id WHERE LOGIN.IsLogged=1;";
 
                 await using (SqlCommand command = new SqlCommand(query2, connection))
                 {
@@ -53,8 +53,40 @@ namespace Ecommerce.Controllers
             }
             return TempData["TotQuantita"] = quantita;
         }
+
+        public async Task<Object> IsUserLogged()
+        {
+            int loggedCount = new();
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query = "SELECT COUNT(IsLogged) FROM LOGIN WHERE IsLogged=1";
+
+                await using(SqlCommand command = new SqlCommand(query, connection))
+                {
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            loggedCount = reader.GetInt32(0);
+                        }
+                    }
+                }
+            }
+            if (loggedCount >= 1)
+            {
+                return ViewData["IsLogged"] = true;
+            }
+            else
+            {
+                return ViewData["IsLogged"] = false;
+            }
+        }
+
+
         public async Task<IActionResult> Index()
         {
+            await IsUserLogged();
             var categoryList = new CategoryViewModel()
             {
                 Categories = new List<Category>()
@@ -92,6 +124,7 @@ namespace Ecommerce.Controllers
         [HttpGet("home/printproducts/{id:int}")]
         public async Task<IActionResult> PrintProducts(Int32 id)
         {
+            await IsUserLogged();
             var printProducts = new ProductsViewModel()
             {
                 Products = new List<Product>()
@@ -158,8 +191,7 @@ namespace Ecommerce.Controllers
 
             if (string.IsNullOrWhiteSpace(query))
             {
-                ViewBag.Message = "Non puoi cercare il nulla!";
-                return View("Index", categoryList);
+                return RedirectToAction("Index");
             }
 
             await using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -194,6 +226,7 @@ namespace Ecommerce.Controllers
                 ViewBag.Message = "Nessuna categoria presente con quel nome!";
             }
 
+            await Banner();
             return View("Index", categoryList);
         }
 
@@ -207,7 +240,8 @@ namespace Ecommerce.Controllers
 
             if (string.IsNullOrWhiteSpace(query))
             {
-                ViewBag.Message = "Non puoi cercare il nulla!";
+                ViewBag.Message = "Ricerca non valida!";
+                await Banner();
                 return View("PrintProducts", productList);
             }
 
@@ -252,6 +286,7 @@ namespace Ecommerce.Controllers
                 ViewBag.Message = "Prodotto non trovato.";
             }
 
+            await Banner();
             return View("PrintProducts", productList);
         }
 

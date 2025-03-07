@@ -28,7 +28,7 @@ namespace Ecommerce.Controllers
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query2 = @"SELECT SUM(Quantity) FROM CART";
+                string query2 = @"SELECT SUM(Quantity) FROM CART INNER JOIN LOGIN ON CART.Id = LOGIN.Id WHERE LOGIN.IsLogged=1";
 
                 await using (SqlCommand command = new SqlCommand(query2, connection))
                 {
@@ -52,9 +52,38 @@ namespace Ecommerce.Controllers
             return TempData["TotQuantita"] = quantita;
         }
 
+        public async Task<Object> IsUserLogged()
+        {
+            int loggedCount = new();
+            await using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query = "SELECT COUNT(IsLogged) FROM LOGIN WHERE IsLogged=1";
+
+                await using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            loggedCount = reader.GetInt32(0);
+                        }
+                    }
+                }
+            }
+            if (loggedCount >= 1)
+            {
+                return ViewData["IsLogged"] = true;
+            }
+            else
+            {
+                return ViewData["IsLogged"] = false;
+            }
+        }
 
         public async Task<IActionResult> Index()
         {
+            await IsUserLogged();
             var cartViewModel = new CartViewModel()
             {
                 CartItems = new List<CartItem>()
@@ -63,10 +92,7 @@ namespace Ecommerce.Controllers
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = @"SELECT C.Id AS CartId, C.Quantity, P.Id AS ProductId, 
-                                 P.Name AS ProductName, P.Price, P.Img 
-                                 FROM CART C 
-                                 INNER JOIN PRODUCTS P ON C.IdProduct = P.Id";
+                string query = "SELECT CART.Id, Quantity, PRODUCTS.Id, Name, Price, Img, DescriptionShort FROM CART INNER JOIN PRODUCTS ON IdProduct= PRODUCTS.Id INNER JOIN LOGIN ON CART.Id = LOGIN.Id WHERE LOGIN.IsLogged=1";
 
                 await using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -83,7 +109,8 @@ namespace Ecommerce.Controllers
                                     Id = reader.GetGuid(2),
                                     Name = reader.GetString(3),
                                     Price = reader.GetDecimal(4),
-                                    Img = reader.GetString(5)
+                                    Img = reader.GetString(5),
+                                    DescriptionShort = reader.GetString(6)
                                 }
                             });
                         }
@@ -95,17 +122,18 @@ namespace Ecommerce.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(Guid cartId, int quantity)
+        public async Task<IActionResult> Delete(Guid cartId, int quantity, Guid IdProduct)
         {
             if (quantity <= 0) quantity = 1;
 
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string checkQuery = "SELECT Quantity FROM CART WHERE Id = @CartId";
+                string checkQuery = "SELECT Quantity FROM CART INNER JOIN LOGIN ON CART.Id = LOGIN.Id WHERE CART.Id = @CartId AND IdProduct = @IdProduct AND IsLogged=1";
                 await using (SqlCommand checkCommand = new SqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@CartId", cartId);
+                    checkCommand.Parameters.AddWithValue("@IdProduct", IdProduct);
                     var existingQuantity = await checkCommand.ExecuteScalarAsync();
 
                     if (existingQuantity != null && existingQuantity != DBNull.Value)
@@ -114,12 +142,13 @@ namespace Ecommerce.Controllers
 
                         if (currentQuantity > quantity)
                         {
-                            string updateQuery = "UPDATE CART SET Quantity = Quantity - @Quantity WHERE Id = @CartId";
+                            string updateQuery = "UPDATE CART SET Quantity = Quantity - @Quantity WHERE Id = @CartId AND IdProduct = @IdProduct";
 
                             await using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
                             {
                                 updateCommand.Parameters.AddWithValue("@Quantity", quantity);
                                 updateCommand.Parameters.AddWithValue("@CartId", cartId);
+                                updateCommand.Parameters.AddWithValue("@IdProduct", IdProduct);
                                 await updateCommand.ExecuteNonQueryAsync();
                             }
                         }
@@ -140,16 +169,17 @@ namespace Ecommerce.Controllers
             return RedirectToAction("Index");
         }
         [HttpPost]
-        public async Task<IActionResult> DeleteAll(Guid cartId)
+        public async Task<IActionResult> DeleteAll(Guid cartId, Guid IdProduct)
         {
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string deleteQuery = "DELETE FROM CART WHERE Id = @CartId";
+                string deleteQuery = "DELETE FROM CART WHERE Id = @CartId AND IdProduct =@IdProduct";
 
                 await using (SqlCommand deleteCommand = new SqlCommand(deleteQuery, connection))
                 {
                     deleteCommand.Parameters.AddWithValue("@CartId", cartId);
+                    deleteCommand.Parameters.AddWithValue("@IdProduct", IdProduct);
                     await deleteCommand.ExecuteNonQueryAsync();
                 }
             }
