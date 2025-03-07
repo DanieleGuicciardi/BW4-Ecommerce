@@ -122,17 +122,18 @@ namespace Ecommerce.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(Guid cartId, int quantity)
+        public async Task<IActionResult> Delete(Guid cartId, int quantity, Guid IdProduct)
         {
             if (quantity <= 0) quantity = 1;
 
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string checkQuery = "SELECT Quantity FROM CART WHERE Id = @CartId";
+                string checkQuery = "SELECT Quantity FROM CART INNER JOIN LOGIN ON CART.Id = LOGIN.Id WHERE CART.Id = @CartId AND IdProduct = @IdProduct AND IsLogged=1";
                 await using (SqlCommand checkCommand = new SqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@CartId", cartId);
+                    checkCommand.Parameters.AddWithValue("@IdProduct", IdProduct);
                     var existingQuantity = await checkCommand.ExecuteScalarAsync();
 
                     if (existingQuantity != null && existingQuantity != DBNull.Value)
@@ -141,12 +142,13 @@ namespace Ecommerce.Controllers
 
                         if (currentQuantity > quantity)
                         {
-                            string updateQuery = "UPDATE CART SET Quantity = Quantity - @Quantity WHERE Id = @CartId";
+                            string updateQuery = "UPDATE CART SET Quantity = Quantity - @Quantity WHERE Id = @CartId AND IdProduct = @IdProduct";
 
                             await using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
                             {
                                 updateCommand.Parameters.AddWithValue("@Quantity", quantity);
                                 updateCommand.Parameters.AddWithValue("@CartId", cartId);
+                                updateCommand.Parameters.AddWithValue("@IdProduct", IdProduct);
                                 await updateCommand.ExecuteNonQueryAsync();
                             }
                         }
@@ -167,16 +169,17 @@ namespace Ecommerce.Controllers
             return RedirectToAction("Index");
         }
         [HttpPost]
-        public async Task<IActionResult> DeleteAll(Guid cartId)
+        public async Task<IActionResult> DeleteAll(Guid cartId, Guid IdProduct)
         {
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string deleteQuery = "DELETE FROM CART WHERE Id = @CartId";
+                string deleteQuery = "DELETE FROM CART WHERE Id = @CartId AND IdProduct =@IdProduct";
 
                 await using (SqlCommand deleteCommand = new SqlCommand(deleteQuery, connection))
                 {
                     deleteCommand.Parameters.AddWithValue("@CartId", cartId);
+                    deleteCommand.Parameters.AddWithValue("@IdProduct", IdProduct);
                     await deleteCommand.ExecuteNonQueryAsync();
                 }
             }

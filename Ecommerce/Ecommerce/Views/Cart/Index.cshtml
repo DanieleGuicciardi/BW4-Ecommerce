@@ -41,12 +41,14 @@
 									@item.Quantity
 								</span>
 								<input type="hidden" name="cartId" value="@item.CartId" />
+								<input type="hidden" name="IdProduct" value="@item.Product.Id" />
 								<button type="submit" class="btn bg-transparent btnMeno p-0">
 									<i class="bi bi-dash-circle text-danger fs-5 ps-3"></i>
 								</button>
 							</form>
 								<form asp-action="DeleteAll" asp-controller="Cart" method="post">
 									<input type="hidden" name="cartId" value="@item.CartId" />
+									<input type="hidden" name="IdProduct" value="@item.Product.Id" />
 									<button class="btnDelete btn" type="submit">
 										<svg xmlns="http://www.w3.org/2000/svg"
 											 fill="none"
