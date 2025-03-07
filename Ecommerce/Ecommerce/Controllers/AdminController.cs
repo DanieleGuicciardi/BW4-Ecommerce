@@ -29,7 +29,7 @@ namespace Ecommerce.Controllers
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query2 = @"SELECT SUM(Quantity) FROM CART";
+                string query2 = @"SELECT SUM(Quantity) FROM CART INNER JOIN LOGIN ON CART.Id = LOGIN.Id WHERE LOGIN.IsLogged=1";
 
                 await using (SqlCommand command = new SqlCommand(query2, connection))
                 {
@@ -44,8 +44,6 @@ namespace Ecommerce.Controllers
                             {
                                 quantita = 0;
                             }
-
-
                         }
                     };
                 }

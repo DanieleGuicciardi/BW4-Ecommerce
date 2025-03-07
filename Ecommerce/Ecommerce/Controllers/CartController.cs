@@ -28,7 +28,7 @@ namespace Ecommerce.Controllers
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query2 = @"SELECT SUM(Quantity) FROM CART";
+                string query2 = @"SELECT SUM(Quantity) FROM CART INNER JOIN LOGIN ON CART.Id = LOGIN.Id WHERE LOGIN.IsLogged=1";
 
                 await using (SqlCommand command = new SqlCommand(query2, connection))
                 {
@@ -92,10 +92,8 @@ namespace Ecommerce.Controllers
             await using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = @"SELECT C.Id AS CartId, C.Quantity, P.Id AS ProductId, 
-                                 P.Name AS ProductName, P.Price, P.Img, P.DescriptionShort 
-                                 FROM CART C 
-                                 INNER JOIN PRODUCTS P ON C.IdProduct = P.Id";
+                string query = @"SELECT CART.Id, Quantity, PRODUCTS.Id, Name, Price, Img FROM CART INNER JOIN PRODUCTS 
+                                ON IdProduct= PRODUCTS.Id INNER JOIN LOGIN ON CART.Id = LOGIN.Id WHERE LOGIN.IsLogged=1";
 
                 await using (SqlCommand command = new SqlCommand(query, connection))
                 {
