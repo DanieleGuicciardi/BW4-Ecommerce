@@ -1,7 +1,7 @@
 # BW4-Ecommerce - Build Week Project
 
 ## Descrizione
-Questo progetto rappresenta il backend di un'applicazione **e-commerce** sviluppata utilizzando **C# con ASP.NET Core** e **SQL Server** per la gestione dei dati. Il sistema consente agli utenti di navigare tra le categorie di prodotti, visualizzare i dettagli degli articoli, aggiungerli al carrello e completare un ordine.
+Questo progetto rappresenta il backend di un'applicazione **e-commerce** sviluppata utilizzando **C# con ASP.NET Core** e **SQL Server** per la gestione dei dati. Il sistema consente agli utenti di navigare tra le categorie di prodotti, visualizzare i dettagli degli articoli, aggiungerli al carrello e completare un ordine
 
 ## Tecnologie Utilizzate
 - **Linguaggio di Programmazione:** C#
